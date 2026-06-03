@@ -1,0 +1,398 @@
+[
+  {
+    "postgresCode": "22001",
+    "prismaCode": "P2000",
+    "message": {
+      "fr": "Valeur trop longue.",
+      "en": "The provided value is too long."
+    },
+    "details": "Dépassement de la taille maximale de la colonne."
+  },
+  {
+    "postgresCode": "23505",
+    "prismaCode": "P2002",
+    "message": {
+      "fr": "Valeur déjà existante.",
+      "en": "Unique constraint violation."
+    },
+    "details": "Violation d’une contrainte UNIQUE."
+  },
+  {
+    "postgresCode": "23503",
+    "prismaCode": "P2003",
+    "message": {
+      "fr": "Référence invalide.",
+      "en": "Foreign key violation."
+    },
+    "details": "Violation de contrainte de clé étrangère."
+  },
+  {
+    "postgresCode": "23502",
+    "prismaCode": "P2011",
+    "message": {
+      "fr": "Champ obligatoire manquant.",
+      "en": "Null value not allowed."
+    },
+    "details": "Une colonne NOT NULL contient NULL."
+  },
+  {
+    "postgresCode": "02000",
+    "prismaCode": "P2025",
+    "message": {
+      "fr": "Aucun enregistrement trouvé.",
+      "en": "No record found."
+    },
+    "details": "La requête n’a retourné aucun résultat."
+  },
+  {
+    "postgresCode": "22003",
+    "prismaCode": null,
+    "message": {
+      "fr": "Valeur numérique hors limites.",
+      "en": "Numeric value out of range."
+    },
+    "details": "La valeur dépasse les limites autorisées pour le type."
+  },
+  {
+    "postgresCode": "22007",
+    "prismaCode": null,
+    "message": {
+      "fr": "Format de date invalide.",
+      "en": "Invalid datetime format."
+    },
+    "details": "Le format de date ou d’heure est incorrect."
+  },
+  {
+    "postgresCode": "22P02",
+    "prismaCode": null,
+    "message": {
+      "fr": "Syntaxe de donnée invalide.",
+      "en": "Invalid text representation."
+    },
+    "details": "Conversion de type invalide."
+  },
+  {
+    "postgresCode": "22012",
+    "prismaCode": null,
+    "message": {
+      "fr": "Division par zéro.",
+      "en": "Division by zero."
+    },
+    "details": "Tentative de division par zéro."
+  },
+  {
+    "postgresCode": "42601",
+    "prismaCode": null,
+    "message": {
+      "fr": "Erreur de syntaxe SQL.",
+      "en": "Syntax error."
+    },
+    "details": "La requête SQL est invalide."
+  },
+  {
+    "postgresCode": "42703",
+    "prismaCode": null,
+    "message": {
+      "fr": "Colonne inexistante.",
+      "en": "Undefined column."
+    },
+    "details": "La colonne référencée n’existe pas."
+  },
+  {
+    "postgresCode": "42P01",
+    "prismaCode": null,
+    "message": {
+      "fr": "Table inexistante.",
+      "en": "Undefined table."
+    },
+    "details": "La table demandée n’existe pas."
+  },
+  {
+    "postgresCode": "42P02",
+    "prismaCode": null,
+    "message": {
+      "fr": "Paramètre indéfini.",
+      "en": "Undefined parameter."
+    },
+    "details": "Paramètre SQL manquant."
+  },
+  {
+    "postgresCode": "53300",
+    "prismaCode": null,
+    "message": {
+      "fr": "Trop de connexions.",
+      "en": "Too many connections."
+    },
+    "details": "Nombre maximal de connexions atteint."
+  },
+  {
+    "postgresCode": "57014",
+    "prismaCode": null,
+    "message": {
+      "fr": "Requête annulée.",
+      "en": "Query canceled."
+    },
+    "details": "Annulation due à un timeout ou action utilisateur."
+  },
+  {
+    "postgresCode": "54000",
+    "prismaCode": null,
+    "message": {
+      "fr": "Limite dépassée.",
+      "en": "Program limit exceeded."
+    },
+    "details": "Limite interne PostgreSQL atteinte."
+  },
+  {
+    "postgresCode": "40001",
+    "prismaCode": null,
+    "message": {
+      "fr": "Conflit de transaction.",
+      "en": "Serialization failure."
+    },
+    "details": "Conflit de concurrence, réessayer."
+  },
+  {
+    "postgresCode": "28P01",
+    "prismaCode": null,
+    "message": {
+      "fr": "Mot de passe incorrect.",
+      "en": "Invalid password."
+    },
+    "details": "Le mot de passe fourni est invalide."
+  },
+  {
+    "postgresCode": "28000",
+    "prismaCode": null,
+    "message": {
+      "fr": "Autorisation invalide.",
+      "en": "Invalid authorization."
+    },
+    "details": "Problème d’authentification ou permissions insuffisantes."
+  },
+  {
+    "postgresCode": "0A000",
+    "prismaCode": null,
+    "message": {
+      "fr": "Fonctionnalité non supportée.",
+      "en": "Feature not supported."
+    },
+    "details": "La fonctionnalité demandée n’est pas supportée."
+  },
+  {
+    "postgresCode": "08006",
+    "prismaCode": null,
+    "message": {
+      "fr": "Connexion interrompue.",
+      "en": "Connection failure."
+    },
+    "details": "La connexion au serveur a été perdue."
+  },
+  {
+    "postgresCode": "08001",
+    "prismaCode": null,
+    "message": {
+      "fr": "Impossible d’établir la connexion.",
+      "en": "Unable to establish connection."
+    },
+    "details": "Le client ne peut pas se connecter au serveur."
+  },
+  {
+    "postgresCode": "22005",
+    "prismaCode": null,
+    "message": {
+      "fr": "Erreur de conversion.",
+      "en": "Error in assignment."
+    },
+    "details": "Impossible de convertir ou d’assigner la donnée."
+  },
+  {
+    "postgresCode": "23000",
+    "prismaCode": null,
+    "message": {
+      "fr": "Violation d’intégrité.",
+      "en": "Integrity constraint violation."
+    },
+    "details": "Violation générique de contrainte d’intégrité."
+  },
+  {
+    "postgresCode": "23514",
+    "prismaCode": null,
+    "message": {
+      "fr": "Contrainte CHECK violée.",
+      "en": "Check constraint violation."
+    },
+    "details": "La contrainte CHECK n’est pas respectée."
+  },
+  {
+    "postgresCode": "24000",
+    "prismaCode": null,
+    "message": {
+      "fr": "État de curseur invalide.",
+      "en": "Invalid cursor state."
+    },
+    "details": "Erreur liée à l’état du curseur SQL."
+  },
+  {
+    "postgresCode": "25001",
+    "prismaCode": null,
+    "message": {
+      "fr": "Transaction active invalide.",
+      "en": "Active transaction."
+    },
+    "details": "Commande invalide dans une transaction active."
+  },
+  {
+    "postgresCode": "25006",
+    "prismaCode": null,
+    "message": {
+      "fr": "Transaction en lecture seule.",
+      "en": "Read-only transaction."
+    },
+    "details": "Tentative d’écriture dans une transaction read-only."
+  },
+  {
+    "postgresCode": "57017",
+    "prismaCode": null,
+    "message": {
+      "fr": "Conflit de verrouillage.",
+      "en": "Operator intervention."
+    },
+    "details": "Une opération a été interrompue par l’administrateur."
+  },
+  {
+    "postgresCode": "23515",
+    "prismaCode": null,
+    "message": {
+      "fr": "Erreur de séquence.",
+      "en": "Exclusion constraint violation."
+    },
+    "details": "Violation de contrainte d’exclusion."
+  },
+  {
+    "postgresCode": "22008",
+    "prismaCode": null,
+    "message": {
+      "fr": "Erreur de date/heure.",
+      "en": "Datetime field overflow."
+    },
+    "details": "Dépassement lors de l’insertion d’une date ou heure."
+  },
+  {
+    "postgresCode": "2200B",
+    "prismaCode": null,
+    "message": {
+      "fr": "Erreur d’échappement.",
+      "en": "Escape character error."
+    },
+    "details": "Erreur dans l’utilisation des caractères d’échappement."
+  },
+  {
+    "postgresCode": "2200C",
+    "prismaCode": null,
+    "message": {
+      "fr": "Erreur de type binaire.",
+      "en": "Invalid binary data."
+    },
+    "details": "Le format de données binaires est invalide."
+  },
+  {
+    "postgresCode": "2200D",
+    "prismaCode": null,
+    "message": {
+      "fr": "Erreur d’encodage.",
+      "en": "Encoding error."
+    },
+    "details": "Problème avec le jeu de caractères ou encodage."
+  },
+  {
+    "postgresCode": "2200F",
+    "prismaCode": null,
+    "message": {
+      "fr": "Erreur de zone temporelle.",
+      "en": "Timezone error."
+    },
+    "details": "Zone temporelle invalide pour la donnée fournie."
+  },
+  {
+    "postgresCode": "2200G",
+    "prismaCode": null,
+    "message": {
+      "fr": "Erreur de date/heure invalide.",
+      "en": "Invalid datetime format."
+    },
+    "details": "Format de date/heure invalide."
+  },
+  {
+    "postgresCode": "2200H",
+    "prismaCode": null,
+    "message": {
+      "fr": "Erreur de valeur numérique.",
+      "en": "Invalid numeric value."
+    },
+    "details": "La valeur numérique n’est pas conforme au type attendu."
+  },
+  {
+    "postgresCode": "2200K",
+    "prismaCode": null,
+    "message": {
+      "fr": "Division par zéro.",
+      "en": "Division by zero."
+    },
+    "details": "Tentative de division par zéro."
+  },
+  {
+    "postgresCode": "2200M",
+    "prismaCode": null,
+    "message": {
+      "fr": "Valeur NULL invalide.",
+      "en": "Null value not allowed."
+    },
+    "details": "Une colonne obligatoire contient NULL."
+  },
+  {
+    "postgresCode": "2200N",
+    "prismaCode": null,
+    "message": {
+      "fr": "Valeur hors limites.",
+      "en": "Value out of range."
+    },
+    "details": "La valeur fournie dépasse les limites autorisées."
+  },
+  {
+    "postgresCode": "2200P",
+    "prismaCode": null,
+    "message": {
+      "fr": "Erreur de chaîne de caractères.",
+      "en": "Character string error."
+    },
+    "details": "Erreur lors du traitement de la chaîne."
+  },
+  {
+    "postgresCode": "2200Q",
+    "prismaCode": null,
+    "message": {
+      "fr": "Erreur de conversion de type.",
+      "en": "Datatype conversion error."
+    },
+    "details": "Impossible de convertir la donnée vers le type attendu."
+  },
+  {
+    "postgresCode": "2200R",
+    "prismaCode": null,
+    "message": {
+      "fr": "Erreur d’intégrité de données.",
+      "en": "Data integrity error."
+    },
+    "details": "Violation générale d’intégrité des données."
+  },
+  {
+    "postgresCode": null,
+    "prismaCode": "P2028",
+    "message": {
+      "fr": "La transaction a échoué.",
+      "en": "Transaction failed."
+    },
+    "details": "Transaction Prisma interrompue ou déjà terminée."
+  }
+]

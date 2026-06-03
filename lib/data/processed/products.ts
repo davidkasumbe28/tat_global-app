@@ -1,0 +1,118 @@
+
+
+const products = [
+  {
+    id: 1,
+    name: "Chemise Premium",
+    category: "Vêtements",
+    price: 89.99,
+    image: "/premium-shirt.jpg",
+    rating: 4.5,
+  },
+  {
+    id: 2,
+    name: "Sneakers Urbaines",
+    category: "Chaussures",
+    price: 129.99,
+    image: "/urban-sneakers.jpg",
+    rating: 4.8,
+  },
+  {
+    id: 3,
+    name: "Parfum Essence",
+    category: "Parfums",
+    price: 79.99,
+    image: "/perfume-bottle.jpg",
+    rating: 4.6,
+  },
+  {
+    id: 4,
+    name: "Pantalon Élégant",
+    category: "Vêtements",
+    price: 99.99,
+    image: "/elegant-pants.jpg",
+    rating: 4.4,
+  },
+  {
+    id: 5,
+    name: "Boots Cuir",
+    category: "Chaussures",
+    price: 159.99,
+    image: "/leather-boots.jpg",
+    rating: 4.7,
+  },
+  {
+    id: 6,
+    name: "Eau de Toilette",
+    category: "Parfums",
+    price: 69.99,
+    image: "/eau-de-toilette.jpg",
+    rating: 4.5,
+  },
+]
+
+// const PRODUCTS_DB: Record<number, any> = {
+//   1: {
+//     id: 1,
+//     name: "Chemise Premium Coton",
+//     category: "Vêtements",
+//     price: 89.99,
+//     rating: 4.5,
+//     reviews: 128,
+//     image: "/premium-shirt.jpg",
+//     description: "Chemise de qualité en coton premium",
+//     fullDescription: `Cette chemise est confectionnée à partir de coton premium 100% naturel. Parfaite pour une tenue professionnelle ou décontractée, elle offre un confort optimal et une durabilité exceptionnelle.`,
+//     features: [
+//       "Coton premium 100%",
+//       "Coupe classique",
+//       "Lavage facile",
+//       "Disponible en 5 couleurs",
+//     ],
+//     sizes: ["XS", "S", "M", "L", "XL", "XXL"],
+//     colors: ["Blanc", "Bleu", "Rose", "Gris"],
+//     stock: 50,
+//   },
+//   2: {
+//     id: 2,
+//     name: "Sneakers Urbaines Noires",
+//     category: "Chaussures",
+//     price: 129.99,
+//     rating: 4.8,
+//     reviews: 245,
+//     image: "/urban-sneakers-black.jpg",
+//     description: "Sneakers confortables et élégantes",
+//     fullDescription: `Ces sneakers urbaines combinent style et confort. Dotées d'une semelle ergonomique et d'une tige en textile respirant, elles sont parfaites pour un usage quotidien.`,
+//     features: [
+//       "Semelle ergonomique",
+//       "Textile respirant",
+//       "Design moderne",
+//       "Légères et flexibles",
+//     ],
+//     sizes: ["36", "37", "38", "39", "40", "41", "42", "43", "44", "45"],
+//     colors: ["Noir", "Blanc", "Gris"],
+//     stock: 30,
+//   },
+//   3: {
+//     id: 3,
+//     name: "Parfum Essence Luxury",
+//     category: "Parfums",
+//     price: 79.99,
+//     rating: 4.6,
+//     reviews: 89,
+//     image: "/luxury-perfume-bottle.png",
+//     description: "Parfum avec essence luxe",
+//     fullDescription: `Un parfum sophistiqué aux notes florales et épicées. Longue tenue de 12 heures, ce parfum vous accompagnera tout au long de la journée.`,
+//     features: [
+//       "Notes florales et épicées",
+//       "Longue tenue 12h",
+//       "Flacon luxe",
+//       "Made in France",
+//     ],
+//     sizes: ["50ml", "100ml", "200ml"],
+//     colors: ["Classique"],
+//     stock: 20,
+//   },
+// };
+
+
+export default products

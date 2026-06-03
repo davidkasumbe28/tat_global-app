@@ -1,0 +1,490 @@
+{
+  "users": [
+    {
+      "id": "573",
+      "email": "john.doe@email.com",
+      "password": "$2b$10$z2nqNSpwo8/M7ewngKmeZeCt9caOu72xyNonpByNLP9ObPQZWgqi2",
+      "firstName": "john",
+      "lastName": "doe",
+      "phone": "+33 6 12 34 56 78",
+      "address": "123 Rue de la Paix",
+      "city": "Paris",
+      "zipCode": "01257",
+      "country": "France",
+      "role": "user",
+      "state": "enabled",
+      "status": "offline",
+      "createdAt": "2025-11-09T03:16:19.573Z",
+      "updatedAt": "2025-11-24T15:13:11.023Z",
+      "postalCode": "75001",
+      "avatar": "https://nk4klggv4zbdyuue.public.blob.vercel-storage.com/default-avatar.png"
+    },
+    {
+      "id": "231",
+      "email": "jean.dupont@example.com",
+      "password": "$2b$10$.1YsS0VTdRdg79vWq/cDWu1/PblNUMTFxc0WO9uFxTKYASHOdHYNi",
+      "firstName": "Jean",
+      "lastName": "Dupont",
+      "phone": "+33 6 12 34 56 78",
+      "address": "123 Rue de la Paix",
+      "city": "Bruxelles",
+      "zipCode": "75001",
+      "country": "Belgique",
+      "role": "delivery-person",
+      "state": "enabled",
+      "status": "online",
+      "createdAt": "2025-11-09T13:56:39.231Z",
+      "updatedAt": "2025-12-17T21:48:11.290Z",
+      "avatar": "https://nk4klggv4zbdyuue.public.blob.vercel-storage.com/default-avatar.png"
+    },
+    {
+      "id": "258",
+      "email": "bob.johnson@example.com",
+      "password": "$2b$10$Aok0y5gIMKTaCOjvokqpeO0sCVHnUlbhSlT90cFYKwryuULHUTWlm",
+      "firstName": "bob",
+      "lastName": "johnson",
+      "phone": "+33 6 12 34 56 78",
+      "address": "123 Rue de la Paix",
+      "city": "Paris",
+      "zipCode": "75001",
+      "country": "France",
+      "role": "admin",
+      "state": "enabled",
+      "status": "offline",
+      "createdAt": "2025-11-13T01:09:47.258Z",
+      "updatedAt": "2025-11-17T23:02:22.235Z",
+      "avatar": "https://nk4klggv4zbdyuue.public.blob.vercel-storage.com/avatars/user-avatar%40258"
+    },
+    {
+      "id": "630",
+      "email": "lise.dubois@example.com",
+      "password": "$2b$10$heb5yhL5xGVZuLl5RluHWu1AsitRMosGhVxuugzvwntP1R68zz6Pi",
+      "firstName": "Lise",
+      "lastName": "dubois",
+      "phone": "+33 6 12 34 56 78",
+      "address": "123 Rue de la Paix",
+      "city": "Paris",
+      "zipCode": "75001",
+      "country": "Belgique",
+      "role": "stock-manager",
+      "state": "enabled",
+      "status": "online",
+      "createdAt": "2025-11-17T01:36:43.630Z",
+      "updatedAt": "2025-11-18T03:46:21.786Z",
+      "avatar": "https://nk4klggv4zbdyuue.public.blob.vercel-storage.com/avatars/user-avatar%40630"
+    }
+  ],
+  "employees": [],
+  "customers": [],
+  "collections": [
+    {
+      "id": "1763544830728",
+      "name": "Collection Été 2025",
+      "category": "clothing",
+      "description": "Découvrez nos pièces essentielles pour l'été",
+      "state": "available",
+      "color": "bg-blue-50",
+      "createdAt": "2025-11-19T09:33:50.728Z",
+      "updatedAt": "2025-11-23T04:42:56.464Z",
+      "image": "https://nk4klggv4zbdyuue.public.blob.vercel-storage.com/images/collections/collection-image%401763544830728-Z3P2OaVzmPHSqB8iIhcdhHueY3Mn1q"
+    },
+    {
+      "id": "1763545519907",
+      "name": "Parfums Luxe",
+      "category": "perfumes",
+      "description": "Sélection exclusive de parfums premium",
+      "state": "available",
+      "color": "bg-blue-50",
+      "createdAt": "2025-11-19T09:45:19.907Z",
+      "updatedAt": "2025-11-23T04:50:38.499Z",
+      "image": "https://nk4klggv4zbdyuue.public.blob.vercel-storage.com/images/collections/collection-image%401763545519907-QVAR4EibSUopbzVIjnjNxmyis5nwAB"
+    },
+    {
+      "id": "1763545603234",
+      "name": "Sneakers Tendance",
+      "category": "shoes",
+      "description": "Les meilleures marques de sneakers du moment",
+      "state": "available",
+      "color": "bg-blue-50",
+      "createdAt": "2025-11-19T09:46:43.234Z",
+      "updatedAt": "2025-11-23T04:51:18.442Z",
+      "image": "https://nk4klggv4zbdyuue.public.blob.vercel-storage.com/images/collections/collection-image%401763545603234-aKDVCqzrGVS1NtzZzUH1aHJyuDVpJ4"
+    }
+  ],
+  "products": [
+    {
+      "id": "1763860805080",
+      "name": "T-Shirt Premium",
+      "sku": "T_SHRT-001",
+      "category": "clothing",
+      "description": "T-shirt de qualité supérieure en coton 100%",
+      "features": "Coton premium 100%,Coupe classique,Lavage facile,Disponible en 5 couleurs",
+      "price": "50",
+      "cost": "18.8",
+      "sizes": "XS, S, M, L, XL, XXL",
+      "colors": "Blanc,Bleu,Rose,Gris",
+      "stock": "10",
+      "rating": "4.5",
+      "state": "available",
+      "collectionId": "1763544830728",
+      "createdAt": "2025-11-23T01:20:05.081Z",
+      "updatedAt": "2025-11-23T05:06:38.066Z",
+      "image": "https://nk4klggv4zbdyuue.public.blob.vercel-storage.com/images/products/product-image%401763860805080-Jz1KVTydJ61PJEXVP03E3tLbuwfpfp"
+    },
+    {
+      "id": "1763861638774",
+      "name": "Sneakers Urbaines Noires",
+      "sku": "SNEAK-001",
+      "category": "shoes",
+      "description": "Sneakers confortables et élégantes",
+      "features": "Semelle ergonomique,Textile respirant,Design moderne,Légères et flexibles",
+      "price": "45",
+      "cost": "24.5",
+      "sizes": "37,38,39,40,41,42,43,44,45",
+      "colors": "Blanc,Noir,Gris",
+      "stock": "30",
+      "rating": "4.7",
+      "state": "available",
+      "collectionId": "1763545603234",
+      "createdAt": "2025-11-23T01:33:58.774Z",
+      "updatedAt": "2025-11-23T05:08:44.838Z",
+      "image": "https://nk4klggv4zbdyuue.public.blob.vercel-storage.com/images/products/product-image%401763861638774-yhR6yO0kaD17Z4eQZQp1mCECZ5sBIF"
+    },
+    {
+      "id": "1763862253416",
+      "name": "Parfum Essence Luxury",
+      "sku": "ESS_LUX-001",
+      "category": "perfumes",
+      "description": "Parfum avec essence luxe",
+      "features": "Notes florales et épicées,Longue tenue 12h,Flacon luxe,Made in France",
+      "price": "80",
+      "cost": "49.5",
+      "sizes": "50ml,100ml,200ml",
+      "colors": "Classique",
+      "stock": "20",
+      "rating": "4.6",
+      "state": "available",
+      "collectionId": "1763545519907",
+      "createdAt": "2025-11-23T01:44:13.416Z",
+      "updatedAt": "2025-11-23T05:09:40.725Z",
+      "image": "https://nk4klggv4zbdyuue.public.blob.vercel-storage.com/images/products/product-image%401763862253416-Rrik8VlNZ3S3uR04f6aZ2dFIuiXGOT"
+    },
+    {
+      "id": "1763862722174",
+      "name": "Parfum Premium",
+      "sku": "PREM-001",
+      "category": "perfumes",
+      "description": "Parfum haut de gamme pour homme",
+      "features": "Parfum pour homme",
+      "price": "150",
+      "cost": "60",
+      "sizes": "50ml,100ml,200ml",
+      "colors": "Classique",
+      "stock": "40",
+      "rating": "5",
+      "state": "available",
+      "collectionId": "1763545519907",
+      "createdAt": "2025-11-23T01:52:02.174Z",
+      "updatedAt": "2025-11-23T05:12:42.893Z",
+      "image": "https://nk4klggv4zbdyuue.public.blob.vercel-storage.com/images/products/product-image%401763862722174-ttPwYNQMuzqKnTD0AXpPpBK8oWyTGg"
+    },
+    {
+      "id": "1763863151804",
+      "name": "Pantalon Élégant",
+      "sku": "PANT-001",
+      "category": "clothing",
+      "description": "Pantalon de cérémonie confortable",
+      "features": "Pantalon confortable",
+      "price": "50",
+      "cost": "30",
+      "sizes": "28, 30, 32, 34, 36, 38",
+      "colors": "Noir,Bleu marine,Gris",
+      "stock": "60",
+      "rating": "4.7",
+      "state": "available",
+      "createdAt": "2025-11-23T01:59:11.804Z",
+      "updatedAt": "2025-11-23T05:11:55.022Z",
+      "image": "https://nk4klggv4zbdyuue.public.blob.vercel-storage.com/images/products/product-image%401763863151804-ZrE9lV50xzxdrwM1iedkD2i3PhBWst"
+    },
+    {
+      "id": "1763863426814",
+      "name": "Bottines Cuir",
+      "sku": "BOTT-001",
+      "category": "shoes",
+      "description": "Bottines en cuir véritable",
+      "features": "",
+      "price": "80",
+      "cost": "49.3",
+      "sizes": "36,37,38,39,40,41",
+      "colors": "Marron,Noir",
+      "stock": "17",
+      "rating": "4.9",
+      "state": "available",
+      "createdAt": "2025-11-23T02:03:46.814Z",
+      "updatedAt": "2025-11-23T05:11:37.774Z",
+      "image": "https://nk4klggv4zbdyuue.public.blob.vercel-storage.com/images/products/product-image%401763863426814-guVQdsSaygXVugKP5fQgcndF5Gt1cZ"
+    },
+    {
+      "id": "1763863688307",
+      "name": "Parfum Eau de Toilette",
+      "sku": "EAU_TLTT-001",
+      "category": "perfumes",
+      "description": "Parfum élégant et raffiné",
+      "features": "",
+      "price": "70",
+      "cost": "45.5",
+      "sizes": "50ml,100ml,200ml",
+      "colors": "classique",
+      "stock": "120",
+      "rating": "4.4",
+      "state": "available",
+      "createdAt": "2025-11-23T02:08:08.307Z",
+      "updatedAt": "2025-11-23T05:10:50.726Z",
+      "image": "https://nk4klggv4zbdyuue.public.blob.vercel-storage.com/images/products/product-image%401763863688307-Q9XlRQzRTAsx70Xb0maVzRcyn63XLz"
+    },
+    {
+      "id": "1763874922127",
+      "name": "Baskets Urbaines",
+      "sku": "SNEAK-002",
+      "category": "shoes",
+      "description": "Sneakers confortables et stylées",
+      "features": "",
+      "price": "40",
+      "cost": "25",
+      "sizes": "37,38,39,40,41,42,43,44,45",
+      "colors": "Blanc,Noir,Gris",
+      "stock": "40",
+      "rating": "4.8",
+      "state": "available",
+      "collectionId": "1763545603234",
+      "createdAt": "2025-11-23T05:15:22.127Z",
+      "updatedAt": "2025-11-23T05:20:18.528Z",
+      "image": "https://nk4klggv4zbdyuue.public.blob.vercel-storage.com/images/products/product-image%401763874922127-c6JwlRN6zEkO8793VyQG3UDcd2MXMH"
+    }
+  ],
+  "carts": [
+    {
+      "id": 1765563453905,
+      "userId": "258",
+      "state": "disabled",
+      "createdAt": "2025-12-12T18:17:33.905Z",
+      "updatedAt": "2025-12-14T14:07:24.004Z"
+    },
+    {
+      "id": 1765721245382,
+      "userId": "258",
+      "state": "disabled",
+      "createdAt": "2025-12-14T14:07:25.382Z",
+      "updatedAt": "2025-12-14T20:11:26.935Z"
+    },
+    {
+      "id": 1765743120573,
+      "userId": "258",
+      "state": "enabled",
+      "createdAt": "2025-12-14T20:12:00.573Z",
+      "updatedAt": "2025-12-14T20:12:00.573Z"
+    },
+    {
+      "id": 1765846145541,
+      "userId": "630",
+      "state": "disabled",
+      "createdAt": "2025-12-16T00:49:05.541Z",
+      "updatedAt": "2025-12-16T14:57:28.813Z"
+    },
+    {
+      "id": 1765897050586,
+      "userId": "630",
+      "state": "enabled",
+      "createdAt": "2025-12-16T14:57:30.586Z",
+      "updatedAt": "2025-12-16T14:57:30.586Z"
+    },
+    {
+      "id": 1765976755229,
+      "userId": "231",
+      "state": "enabled",
+      "createdAt": "2025-12-17T13:05:55.229Z",
+      "updatedAt": "2025-12-17T13:05:55.229Z"
+    },
+    {
+      "id": 1766009698005,
+      "userId": "573",
+      "state": "enabled",
+      "createdAt": "2025-12-17T22:14:58.005Z",
+      "updatedAt": "2025-12-17T22:14:58.005Z"
+    }
+  ],
+  "cartItems": [
+    {
+      "id": 1765563518439,
+      "cartId": 1765563453905,
+      "productId": "1763861638774",
+      "quantity": 1,
+      "size": "37",
+      "color": "Blanc",
+      "createdAt": "2025-12-12T18:18:38.440Z",
+      "updatedAt": "2025-12-12T18:18:38.440Z"
+    },
+    {
+      "id": 1765563538538,
+      "cartId": 1765563453905,
+      "productId": "1763861638774",
+      "quantity": 2,
+      "size": "41",
+      "color": "Blanc",
+      "createdAt": "2025-12-12T18:18:58.538Z",
+      "updatedAt": "2025-12-12T18:19:02.601Z"
+    },
+    {
+      "id": 1765743061277,
+      "cartId": 1765721245382,
+      "productId": "1763862253416",
+      "quantity": 1,
+      "size": "50ml",
+      "color": "Classique",
+      "createdAt": "2025-12-14T20:11:01.277Z",
+      "updatedAt": "2025-12-14T20:11:01.277Z"
+    },
+    {
+      "id": 1765897028074,
+      "cartId": 1765846145541,
+      "productId": "1763861638774",
+      "quantity": 1,
+      "size": "37",
+      "color": "Blanc",
+      "createdAt": "2025-12-16T14:57:08.074Z",
+      "updatedAt": "2025-12-16T14:57:08.074Z"
+    },
+    {
+      "id": 1766159323721,
+      "cartId": 1766009698005,
+      "productId": "1763863688307",
+      "quantity": 1,
+      "size": "50ml",
+      "color": "classique",
+      "createdAt": "2025-12-19T15:48:43.721Z",
+      "updatedAt": "2025-12-19T15:48:43.721Z"
+    },
+    {
+      "id": 1766514789684,
+      "cartId": 1765976755229,
+      "productId": "1763862722174",
+      "quantity": 3,
+      "size": "50ml",
+      "color": "Classique",
+      "createdAt": "2025-12-23T18:33:09.684Z",
+      "updatedAt": "2025-12-23T18:33:26.367Z"
+    }
+  ],
+  "orders": [
+    {
+      "id": 1765721243689,
+      "cartId": 1765563453905,
+      "userId": "258",
+      "items": 3,
+      "totalAmount": 162,
+      "status": "pending",
+      "shippingAddress": {
+        "address": "123 Rue de la Paix",
+        "city": "Paris",
+        "zipCode": "75001",
+        "country": "France"
+      },
+      "shippingMethod": "standard",
+      "trackingNumber": "#TAT_G-2025-684388IMKQ",
+      "paymentMethod": "airtelMoney_cash",
+      "createdAt": "2025-12-14T14:07:23.689Z",
+      "updatedAt": "2025-12-24T01:51:43.375Z"
+    },
+    {
+      "id": 1765743086888,
+      "cartId": 1765721245382,
+      "userId": "258",
+      "items": 1,
+      "totalAmount": 96,
+      "status": "confirmed",
+      "shippingAddress": {
+        "address": "123 Rue de la Paix",
+        "city": "Paris",
+        "zipCode": "75001",
+        "country": "France"
+      },
+      "shippingMethod": "standard",
+      "trackingNumber": "#TAT_G-2025-684396LGAJ",
+      "paymentMethod": "mpesa",
+      "createdAt": "2025-12-14T20:11:26.888Z",
+      "updatedAt": "2025-12-20T22:44:05.702Z"
+    },
+    {
+      "id": 1765897048762,
+      "cartId": 1765846145541,
+      "userId": "630",
+      "items": 1,
+      "totalAmount": 64,
+      "status": "shipped",
+      "shippingAddress": {
+        "address": "123 Rue de la Paix",
+        "city": "Paris",
+        "zipCode": "75001",
+        "country": "Belgique"
+      },
+      "shippingMethod": "standard",
+      "trackingNumber": "#TAT_G-2025-280301VP79",
+      "paymentMethod": "airtelMoney",
+      "createdAt": "2025-12-16T14:57:28.762Z",
+      "updatedAt": "2025-12-20T22:49:01.251Z"
+    }
+  ],
+  "deliveries": [
+    {
+      "id": 1766270941148,
+      "orderId": 1765897048762,
+      "deliveryPersonId": "231",
+      "status": "not_perform",
+      "createdAt": "2025-12-20T22:49:01.148Z",
+      "updatedAt": "2025-12-20T22:49:01.148Z"
+    }
+  ],
+  "favorites": [
+    {
+      "id": 1764608274814,
+      "userId": "630",
+      "productId": "1763863426814"
+    },
+    {
+      "id": 1764608296494,
+      "userId": "630",
+      "productId": "1763862253416"
+    },
+    {
+      "id": 1764608525871,
+      "userId": "573",
+      "productId": "1763860805080"
+    },
+    {
+      "id": 1764608525970,
+      "userId": "573",
+      "productId": "1763862722174"
+    },
+    {
+      "id": 1764608526422,
+      "userId": "573",
+      "productId": "1763863688307"
+    },
+    {
+      "id": 1764608539147,
+      "userId": "573",
+      "productId": "1763863151804"
+    },
+    {
+      "id": 1764608541027,
+      "userId": "573",
+      "productId": "1763863426814"
+    },
+    {
+      "id": 1765488259110,
+      "userId": "630",
+      "productId": "1763860805080"
+    }
+  ],
+  "reviews": []
+}

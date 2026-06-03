@@ -1,0 +1,398 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum RoleUser {
+  USER
+  ADMIN
+}
+
+enum StateUser {
+  ENABLED
+  DISABLED
+}
+
+enum StatusUser {
+  IN_PROGRESS
+  CHECKED
+  OFFLINE
+  ONLINE
+}
+
+enum NotifyOrderBy {
+  EMAIL
+  MESSAGE
+}
+
+model User {
+  id               Int           @id @default(autoincrement())
+  email            String        @unique @db.VarChar(255)
+  password         String        @db.VarChar(255)
+  firstName        String        @db.VarChar(50)
+  lastName         String        @db.VarChar(50)
+  phone            String        @unique @db.VarChar(20)
+  address          String?       @db.VarChar(255)
+  city             String?       @db.VarChar(255)
+  zipCode          String?       @db.VarChar(15)
+  country          String?       @db.VarChar(100)
+  avatar           String?       @db.VarChar(255)
+  role             RoleUser      @default(USER)
+  state            StateUser     @default(ENABLED)
+  status           StatusUser    @default(OFFLINE)
+  notifyOrderBy    NotifyOrderBy @default(EMAIL)
+  notifyNewsletter Boolean       @default(false)
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+  admin            Admin?
+  sessions         Session[]
+  carts            Cart[]
+  favorites        Favorite[]
+  reviews          Review[]
+  orders           Order[]
+  transactions     Transaction[]
+  invoices         Invoice[]
+  deliveries       Delivery[]
+
+  @@index([firstName])
+  @@index([lastName])
+  @@index([email])
+  @@index([phone])
+}
+
+enum RankAdmin {
+  SUPER_ADMIN
+  STANDARD_ADMIN
+  STOCK_MANAGER
+  DELIVERY_PERSON
+}
+
+enum StateAdmin {
+  ENABLED
+  SUSPENDED
+  DISABLED
+}
+
+model Admin {
+  id          Int        @id @default(autoincrement())
+  // AdminNumber String     @unique @db.VarChar(25)
+  userId      Int?       @unique
+  user        User?      @relation(fields: [userId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  rank        RankAdmin  @default(STANDARD_ADMIN)
+  daysOverdue Int?
+  state       StateAdmin @default(ENABLED)
+  // wicketNumber String?    @unique @db.VarChar(10)
+  deliveries  Delivery[]
+
+  @@index([userId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  userId       Int
+  user         User?    @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  tokenRefresh String   @unique @db.VarChar(255)
+  fingerPrint  String?  @db.VarChar(255)
+  tokenKey     String?  @unique @db.VarChar(255)
+  tokenKeyUsed Boolean?
+  createdAt    DateTime @default(now())
+  expiresAt    DateTime
+
+  @@unique([userId, fingerPrint])
+  @@index([tokenRefresh])
+  @@index([userId, fingerPrint])
+  @@index([tokenKey])
+}
+
+enum StateCollection {
+  AVAILABLE
+  UNAVAILABLE
+}
+
+enum CategoryProduct {
+  CLOTHING
+  SHOES
+  PERFUMES
+  OTHER
+}
+
+model Collection {
+  id          Int             @id @default(autoincrement())
+  name        String          @unique @db.VarChar(255)
+  sku         String          @unique @db.VarChar(25)
+  category    CategoryProduct @default(OTHER)
+  description String?
+  image       String?         @db.VarChar(255)
+  color       String?         @db.VarChar(25)
+  state       StateCollection @default(AVAILABLE)
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  products    Product[]
+
+  @@index([name])
+  @@index([sku])
+  @@index([description])
+}
+
+enum StateProduct {
+  AVAILABLE
+  UNAVAILABLE
+}
+
+model Product {
+  id             Int             @id @default(autoincrement())
+  name           String          @unique @db.VarChar(255)
+  sku            String          @unique @db.VarChar(25)
+  category       CategoryProduct @default(OTHER)
+  description    String?
+  features       String?
+  price          Float
+  cost           Float
+  image          String?         @db.VarChar(255)
+  sizes          String?
+  colors         String?
+  stock          Int             @default(0)
+  rating         Float           @default(0.0)
+  trackingNumber String          @unique @db.VarChar(50)
+  state          StateProduct    @default(AVAILABLE)
+  collectionId   Int?
+  collection     Collection?     @relation(fields: [collectionId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  favorites      Favorite[]
+  reviews        Review[]
+  cartItems      CartItem[]
+
+  @@index([name])
+  @@index([sku])
+  @@index([description])
+  @@index([trackingNumber])
+}
+
+model Favorite {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  productId Int
+  product   Product? @relation(fields: [productId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@unique([userId, productId])
+  @@index([userId, productId])
+}
+
+model Review {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  productId Int
+  product   Product? @relation(fields: [productId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  rating    Float
+  comment   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, productId])
+  @@index([userId, productId])
+  @@index([comment])
+}
+
+enum StateCart {
+  ENABLED
+  DISABLED
+}
+
+model Cart {
+  id        Int        @id @default(autoincrement())
+  userId    Int
+  user      User?      @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  state     StateCart  @default(ENABLED)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  cartItems CartItem[]
+  order     Order?
+
+  @@index([userId])
+}
+
+model CartItem {
+  id        Int      @id @default(autoincrement())
+  cartId    Int
+  cart      Cart?    @relation(fields: [cartId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  productId Int
+  product   Product? @relation(fields: [productId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  quantity  Int
+  size      String   @db.VarChar(25)
+  color     String   @db.VarChar(25)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([cartId, productId, size, color])
+  @@index([cartId, productId, size, color])
+}
+
+enum StatusOrder {
+  PENDING
+  CONFIRMED
+  IN_PREPARATION
+  SHIPPED
+  DELIVERED
+  COMPLETED
+  CANCELLED
+}
+
+enum ShippingType {
+  STANDARD
+  EXPRESS
+  OVERNIGHT
+}
+
+enum PaymentType {
+  IN_TWO_SLICES
+  IN_ONE_SLICE
+}
+
+enum PaymentMethod {
+  AIRTEL_MONEY
+  MPESA
+  CASH_ON_DELIVERY
+  CARD
+  PAYPAL
+  AIRTEL_MONEY_ON_CONFIRMATION_CASH_ON_DELIVERY
+  MPESA_ON_CONFIRMATION_CASH_ON_DELIVERY
+}
+
+model Order {
+  id              Int           @id @default(autoincrement())
+  orderNumber     String        @unique @db.VarChar(25)
+  userId          Int?
+  user            User?         @relation(fields: [userId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  cartId          Int?          @unique
+  cart            Cart?         @relation(fields: [cartId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  totalAmount     Float
+  status          StatusOrder   @default(PENDING)
+  paymentMethod   PaymentMethod @default(AIRTEL_MONEY)
+  paymentType     PaymentType   @default(IN_ONE_SLICE)
+  shippingAddress String        @db.VarChar(255)
+  shippingType    ShippingType  @default(STANDARD)
+  trackingNumber  String        @unique @db.VarChar(50)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  delivery        Delivery?
+  invoice         Invoice?
+
+  @@index([orderNumber])
+  @@index([trackingNumber])
+}
+
+enum StateDelivery {
+  DELIVERED
+  NODELIVERED
+}
+
+model Delivery {
+  id               Int           @id @default(autoincrement())
+  deliveryNumber   String        @unique @db.VarChar(25)
+  deliveryPersonId Int?
+  deliveryPerson   Admin?        @relation(fields: [deliveryPersonId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  userId           Int?
+  user             User?         @relation(fields: [userId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  orderId          Int           @unique
+  order            Order?        @relation(fields: [orderId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  state            StateDelivery @default(NODELIVERED)
+  // deliveryDate     DateTime
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+
+  @@index([deliveryNumber])
+  @@index([orderId])
+}
+
+enum StatusInvoice {
+  DRAFT
+  ISSUED
+  PAID
+  OVERDUE
+  CANCELLED
+}
+
+model Invoice {
+  id             Int           @id @default(autoincrement())
+  invoiceNumber  String        @unique @db.VarChar(25)
+  userId         Int?
+  user           User?         @relation(fields: [userId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  orderId        Int           @unique
+  order          Order?        @relation(fields: [orderId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  issueDate      DateTime   
+  dueDate        DateTime
+  // totalAmount    Float
+  shippingAmount Float
+  taxAmount      Float
+  status         StatusInvoice @default(DRAFT)
+  notes          String?
+  trackingNumber String        @unique @db.VarChar(50)
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  transactions   Transaction[]
+
+  // @@index([invoiceNumber])
+  @@index([trackingNumber])
+}
+
+enum StatusTransaction {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
+}
+
+enum TransactionType {
+  SALE
+  RECEIPT
+  REFUND
+  ADJUSTMENT
+}
+
+model Transaction {
+  id                Int               @id @default(autoincrement())
+  transactionNumber String            @unique @db.VarChar(25)
+  userId            Int?
+  user              User?             @relation(fields: [userId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  invoiceId         Int
+  invoice           Invoice?          @relation(fields: [invoiceId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  amount            Float
+  method            PaymentMethod     @default(AIRTEL_MONEY)
+  status            StatusTransaction @default(PENDING)
+  type              TransactionType   @default(SALE)
+  reference         String?           @db.VarChar(255)
+  trackingNumber    String            @unique @db.VarChar(50)
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+  accountLedgers    AccountLedger[]
+
+  @@index([transactionNumber])
+  @@index([trackingNumber])
+}
+
+enum EntryType {
+  DEBIT
+  CREDIT
+}
+
+model AccountLedger {
+  id            Int          @id @default(autoincrement())
+  wording       String
+  transactionId Int
+  transaction   Transaction? @relation(fields: [transactionId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  entryType     EntryType    @default(CREDIT)
+  description   String?
+  balance       Float
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+
+  @@index([wording])
+  @@index([description])
+}
