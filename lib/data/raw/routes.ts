@@ -101,7 +101,8 @@ const API = {
     orders: "/orders",
     invoices : "/invoices",
     transactions : "/transactions",
-    deliveries : "/deliveries"
+    deliveries : "/deliveries",
+    stats : "/stats"
   },
 };
 

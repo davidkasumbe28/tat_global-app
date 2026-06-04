@@ -60,6 +60,8 @@ const error = {
     invoices: "Une erreur est survenue lors de la récupération des factures",
     transactions: "Une erreur est survenue lors de la récupération des transactions",
     accountLedgers: "Une erreur est survenue lors de la récupération des comptes",
+    stats: "Une erreur est survenue lors de la récupération des stats",
+
     collection:
       "Une erreur est survenue lors de la récupération des informations de la collection",
     product:

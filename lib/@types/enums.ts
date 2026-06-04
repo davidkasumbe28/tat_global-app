@@ -1,4 +1,3 @@
-
 // This file contains all the enums used in the application. Enums are a way to define a set of named constants that can be used to represent a specific set of values. They are useful for improving code readability and maintainability by providing meaningful names for values that would otherwise be represented as magic strings or numbers.
 
 // Enums for DB
@@ -79,7 +78,7 @@ export enum CheckoutSteps {
 export enum PaymentType {
   IN_TWO_SLICES = "IN_TWO_SLICES",
   IN_ONE_SLICE = "IN_ONE_SLICE",
-};
+}
 
 export enum PaymentMethod {
   AIRTEL_MONEY = "AIRTEL_MONEY",
@@ -89,7 +88,7 @@ export enum PaymentMethod {
   PAYPAL = "PAYPAL",
   AIRTEL_MONEY_ON_CONFIRMATION_CASH_ON_DELIVERY = "AIRTEL_MONEY_ON_CONFIRMATION_CASH_ON_DELIVERY",
   MPESA_ON_CONFIRMATION_CASH_ON_DELIVERY = "MPESA_ON_CONFIRMATION_CASH_ON_DELIVERY",
-};
+}
 
 export enum ShippingType {
   EXPRESS = "EXPRESS",
@@ -110,5 +109,11 @@ export enum CompareSigne {
   "<" = "<",
   "=" = "=",
   ">=" = ">=",
-  "<=" = "<="
+  "<=" = "<=",
+}
+
+export enum TimeRange {
+  DAY = "DAY",
+  MOTH = "MOTH",
+  YEAR = "YEAR",
 }
