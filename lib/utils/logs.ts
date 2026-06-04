@@ -59,7 +59,7 @@ const error = {
     orders: "Une erreur est survenue lors de la récupération des commandes",
     invoices: "Une erreur est survenue lors de la récupération des factures",
     transactions: "Une erreur est survenue lors de la récupération des transactions",
-
+    accountLedgers: "Une erreur est survenue lors de la récupération des comptes",
     collection:
       "Une erreur est survenue lors de la récupération des informations de la collection",
     product:
@@ -74,7 +74,7 @@ const error = {
     order: "Une erreur est survenue lors de la récupération du commande",
     invoice: "Une erreur est survenue lors de la récupération de la facture",
     transaction: "Une erreur est survenue lors de la récupération de la transaction",
-
+    accountLedger: "Une erreur est survenue lors de la récupération du compte",
   },
   create: {
     user: "Une erreur est survenue lors l'enregistrement des informations de l'utilisateur",
@@ -107,6 +107,8 @@ const error = {
     order: "Une erreur est survenue lors de la mise à jour de la commande",
     invoice: "Une erreur est survenue lors de la mise à jour de la facture",
       transaction: "Une erreur est survenue lors de la mise à jour de la transaction",
+      accountLedger: "Une erreur est survenue lors de la mise à jour du compte",
+
 
   },
   delete: {
@@ -122,6 +124,7 @@ const error = {
     order: "Une erreur est survenue lors de la suppression de la commande",
     invoice: "Une erreur est survenue lors de la suppression de la facture",
     transaction: "Une erreur est survenue lors de la suppression de la transaction",
+    accountLedger: "Une erreur est survenue lors de la suppression du compte",
 
   },
 };

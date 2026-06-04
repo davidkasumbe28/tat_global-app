@@ -45,6 +45,7 @@ export default function ProductDetailsPage() {
     stock: product?.stock,
     rating: product?.rating,
     state: product?.state,
+    collectionId : product?.collectionId
   });
 
   const handleChange = (
@@ -69,6 +70,11 @@ export default function ProductDetailsPage() {
         setChangeData((prev) => ({ ...prev, [name]: value + "," }));
         return;
       }
+    
+    if (name === "collectionId" ){
+        setChangeData((prev) => ({ ...prev, [name]: parseInt(value) }));
+        return;
+    }
 
     setChangeData((prev) => ({ ...prev, [name]: value }));
   };
@@ -103,6 +109,7 @@ export default function ProductDetailsPage() {
       stock,
       rating,
       state,
+      collectionId
     } = formData;
 
     if (
@@ -117,7 +124,8 @@ export default function ProductDetailsPage() {
       colors == product?.colors &&
       stock == product?.stock &&
       rating == product?.rating &&
-      state == product?.state
+      state == product?.state &&
+      collectionId === product?.collectionId
     )
       return;
 

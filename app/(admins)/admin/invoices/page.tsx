@@ -4,21 +4,14 @@ import AdminSearch from "@/components/admin/admin-search";
 import AdminInvoiceFilters from "@/components/admin/invoice/invoice-filters";
 import AdminInvoiceHeader from "@/components/admin/invoice/invoice-header";
 import InvoiceTable from "@/components/admin/invoice/invoice-table";
-import AdminOrderFilters from "@/components/admin/order/order-filters";
-import AdminOrderHeader from "@/components/admin/order/order-hearder";
-import OrderTable from "@/components/admin/order/order-table";
-import AdminProductFilters from "@/components/admin/product/product-filters";
 import ErrorInfo from "@/components/error-info";
 import Pagination from "@/components/pagination";
 import { useTheme } from "@/hooks/use-theme";
-import { Invoice, Order } from "@/lib/@types/types";
+import { Invoice } from "@/lib/@types/types";
 import {
-  PaymentMethod,
-  PaymentType,
-  StatusInvoice,
+  StatusInvoice
 } from "@/lib/generated/prisma/enums";
 import { handleReadInvoices, handleUpdateInvoice } from "@/lib/handlers/events-handlers/invoice-events";
-// import { handleReadInvoices } from "@/lib/handlers/events-handlers/order-events";
 import { useEffect, useState } from "react";
 
 export default function AdminInvoicesPage() {
@@ -36,13 +29,6 @@ export default function AdminInvoicesPage() {
   const [sortBy, setSortBy] = useState("newest");
   const [invoiceStatus, setInvoiceStatus] = useState<StatusInvoice>(StatusInvoice.DRAFT);
 
-  // const [payment, setPayment] = useState<{
-  //   type: PaymentType;
-  //   method: PaymentMethod;
-  // }>({
-  //   type: PaymentType.IN_ONE_SLICE,
-  //   method: PaymentMethod.AIRTEL_MONEY,
-  // });
 
   const ITEMS_PER_PAGE = 12;
 
@@ -50,12 +36,6 @@ export default function AdminInvoicesPage() {
     setCurrentPage(page);
   };
 
-  // const handleShippingChange = (
-  //   e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
-  // ) => {
-  //   const { name, value } = e.target;
-  //   setNewAdress((prev) => ({ ...prev, [name]: value }));
-  // };
 
   const handleUpdate = async (id: number) => {
     setLoading(true);

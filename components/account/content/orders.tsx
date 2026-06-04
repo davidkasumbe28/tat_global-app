@@ -36,7 +36,7 @@ export default function Orders({ emuted = true }: { emuted?: boolean }) {
       .catch((err) => {
         setError(
           err ||
-            "Une erreur est survenue lors de la récupération des commandes",
+          "Une erreur est survenue lors de la récupération des commandes",
         );
         setLoading(false);
       });
@@ -56,7 +56,7 @@ export default function Orders({ emuted = true }: { emuted?: boolean }) {
           <h2 className="text-2xl font-bold ">Mes Commandes</h2>
         </Skeleton>
         <Link href={APP.private.orders}>
-          <Button variant="outline">Voir plus</Button>
+          <Button variant={emuted ? "emuted" : "outline"} >Voir plus</Button>
         </Link>
       </div>
 
@@ -81,8 +81,8 @@ export default function Orders({ emuted = true }: { emuted?: boolean }) {
             variant={emuted || loading ? "emuted" : "default"}
             className={cn(
               !emuted &&
-                !loading &&
-                "bg-foreground text-background hover:bg-primary-dark",
+              !loading &&
+              "bg-foreground text-background hover:bg-primary-dark",
             )}
           >
             Voir mon panier

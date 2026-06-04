@@ -13,6 +13,8 @@ import { useEffect, useState } from "react";
 import { capitalizeFirstLetter } from "@/lib/utils/string";
 import { Invoice } from "@/lib/@types/types";
 import AdminInvoiceDetailsSheet from "@/components/admin/invoice/invoice-details/invoice-details-sheet";
+import Loading from "@/components/layout/loading";
+import Error from "@/components/layout/error";
 
 export default function InvoiceDetailPage() {
   const params = useParams();
@@ -121,6 +123,15 @@ export default function InvoiceDetailPage() {
         setLoading(false);
       });
   }, [success, isEditing]);
+
+    if (loading) return <Loading subject="de la facture" />;
+  
+    if (!invoice && !loading)
+      return (
+        <Error
+          error={error || "Aucune information disponible sur cette facture."}
+        />
+      );
 
   return (
     <main className="flex-1 space-y-4">

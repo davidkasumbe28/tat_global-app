@@ -24,6 +24,8 @@ const APP = {
     products: "/admin/products",
     orders : "/admin/orders",
     invoices : "/admin/invoices",
+    transactions : "/admin/transactions",
+    accountLedgers : "/admin/accountLedgers"
   },
 
   public: {
@@ -48,6 +50,7 @@ const APP = {
     favorites: "/account/favorites",
     orders: "/account/orders",
     invoices: "/account/invoices",
+    transactions : "/account/transactions",
     customOrders: "/custom-orders/book",
     beauty: "/beauty/book",
     cargo: "/cargo/book",
@@ -88,6 +91,8 @@ const API = {
     myOrdersOrder: "/auth/me/orders/order",
     myInvoices: "/auth/me/invoices",
     myInvoicesInvoice: "/auth/me/invoices/invoice",
+    myTransactions: "/auth/me/transactions",
+    myTransactionsTransaction: "/auth/me/transactions/transaction",
     users : "/users",
     collections: "/collections",
     collectionsSelect: "/collections/select",

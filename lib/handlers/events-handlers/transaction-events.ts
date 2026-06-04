@@ -4,6 +4,7 @@ import {
   PaymentMethod,
   PaymentType,
   StatusOrder,
+  StatusTransaction,
   TransactionType,
 } from "@/lib/generated/prisma/enums";
 
@@ -25,16 +26,16 @@ async function handleCreateTransaction(formData: {
   }
 }
 
-async function handleReadUserOrders(
+async function handleReadUserTransactions(
   page: string,
   limit: string,
-  status: StatusOrder | "ALL" = "ALL",
+  status: StatusTransaction | "ALL" = "ALL",
   search: string = "",
   sort: string = "newest",
 ) {
   try {
     const res = await api.get(
-      API.private.myOrders +
+      API.private.myTransactions +
         "?" +
         "page=" +
         page +
@@ -55,9 +56,9 @@ async function handleReadUserOrders(
   }
 }
 
-async function handleReadUserOrder(id: number) {
+async function handleReadUserTransaction(id: number) {
   try {
-    const res = await api.get(API.private.myOrders + "/" + id);
+    const res = await api.get(API.private.myTransactions + "/" + id);
     return res as Record<string, any>;
   } catch (error) {
     const err = error as Error;
@@ -66,23 +67,23 @@ async function handleReadUserOrder(id: number) {
   }
 }
 
-async function handleReadOrders(
+async function handleReadTransactions(
   page?: string,
   limit?: string,
-  paymentType?: PaymentType | "ALL",
-  status?: StatusOrder | "ALL",
+  type?: TransactionType | "ALL",
+  status?: StatusTransaction | "ALL",
   search?: string,
   sort?: string,
 ) {
   try {
     const res = await api.get(
-      API.private.orders +
+      API.private.transactions +
         "?page=" +
         page +
         "&limit=" +
         limit +
-        "&paymentType=" +
-        paymentType +
+        "&type=" +
+        type +
         "&status=" +
         status +
         "&search=" +
@@ -98,9 +99,9 @@ async function handleReadOrders(
   }
 }
 
-async function handleReadOrder(id: number) {
+async function handleReadTransaction(id: number) {
   try {
-    const res = await api.get(API.private.orders + "/" + id);
+    const res = await api.get(API.private.transactions + "/" + id);
     return res as Record<string, any>;
   } catch (error) {
     const err = error as Error;
@@ -109,12 +110,10 @@ async function handleReadOrder(id: number) {
   }
 }
 
-async function handleUpdateUserOrder(
-  id: number,
-  formData: { status: StatusOrder },
-) {
+
+async function handleUpdateTransaction(id: number, formData: Record<string, any>) {
   try {
-    const res = await api.patch(API.private.myOrders + "/" + id, formData);
+    const res = await api.patch(API.private.transactions + "/" + id, formData);
     return res as Record<string, any>;
   } catch (error) {
     const err = error as Error;
@@ -123,31 +122,9 @@ async function handleUpdateUserOrder(
   }
 }
 
-async function handleUpdateOrder(id: number, formData: Record<string, any>) {
+async function handleDeleteTransaction(id: number) {
   try {
-    const res = await api.patch(API.private.orders + "/" + id, formData);
-    return res as Record<string, any>;
-  } catch (error) {
-    const err = error as Error;
-    const message = err.message;
-    return { error: message } as Record<string, any>;
-  }
-}
-
-async function handleDeleteUserOrder(id: number) {
-  try {
-    const res = await api.delete(API.private.myOrders + "/" + id);
-    return res as Record<string, any>;
-  } catch (error) {
-    const err = error as Error;
-    const message = err.message;
-    return { error: message } as Record<string, any>;
-  }
-}
-
-async function handleDeleteOrder(id: number) {
-  try {
-    const res = await api.delete(API.private.orders + "/" + id);
+    const res = await api.delete(API.private.transactions + "/" + id);
     return res as Record<string, any>;
   } catch (error) {
     const err = error as Error;
@@ -158,12 +135,10 @@ async function handleDeleteOrder(id: number) {
 
 export {
   handleCreateTransaction,
-  // handleReadUserOrders,
-  // handleReadUserOrder,
-  // handleUpdateUserOrder,
-  // handleDeleteUserOrder,
-  // handleReadOrders,
-  // handleReadOrder,
-  // handleUpdateOrder,
-  // handleDeleteOrder,
+  handleReadUserTransactions,
+  handleReadUserTransaction,
+  handleReadTransactions,
+  handleReadTransaction,
+  handleUpdateTransaction,
+  handleDeleteTransaction,
 };

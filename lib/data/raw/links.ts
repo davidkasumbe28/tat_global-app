@@ -27,7 +27,7 @@ const user = [
   },
   {
     icon: Package,
-    title: "Mes commandes",
+    title: "Commandes",
     value: "orders",
   },
   {
@@ -95,8 +95,8 @@ const admin = [
   },
   {
     icon: CreditCard,
-    label: "Comptes",
-    href: "/admin/accounts",
+    label: "Transactions",
+    href: "/admin/transactions",
   },
 ];
 

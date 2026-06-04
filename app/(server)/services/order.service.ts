@@ -400,6 +400,7 @@ async function readOrder(id: number): Promise<{
     });
 
     return { success: true, order: order as Order };
+    
   } catch (error) {
     console.error("Read order error : ", error);
     return {

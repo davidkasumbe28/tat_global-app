@@ -1,11 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { APP } from "@/lib/data/raw/routes";
-import { cn } from "@/lib/utils/utils";
-import { PackagePlus, Plus } from "lucide-react";
-import Link from "next/link";
 
 interface AdminInvoiceHeaderProps {
   emuted?: boolean;
@@ -17,7 +12,7 @@ export default function AdminInvoiceHeader({
   return (
     <div className="flex items-center justify-between">
       <Skeleton emuted={emuted}>
-        <h1 className="text-4xl font-bold">Gestion des factures</h1>
+        <h1 className="text-4xl font-bold">Gestion des Factures</h1>
       </Skeleton>
       {/* <Link href={emuted ? "#" : APP.admin.collections + "/new"}>
         <Button

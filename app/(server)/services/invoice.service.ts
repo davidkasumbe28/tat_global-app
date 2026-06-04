@@ -1,24 +1,15 @@
-import { SHIPPING, STATUS_ORDER, TAX } from "@/lib/constants/constants";
+import { SHIPPING, TAX } from "@/lib/constants/constants";
 import {
-  Cart,
   EntryType,
   Invoice,
-  Order,
-  PaymentMethod,
-  PaymentType,
   Prisma,
-  StateCart,
   StatusInvoice,
   StatusOrder,
   TransactionType,
 } from "@/lib/generated/prisma/client";
-import { OrderInclude } from "@/lib/generated/prisma/models";
 import prisma from "@/lib/prisma";
 import logs from "@/lib/utils/logs";
 import Igt from "@/modules/class/igt/Igt";
-import { order } from "./../../../lib/data/raw/order";
-import shipping from "./../../../lib/data/raw/shipping";
-import Invoices from "./../../../components/account/content/invoices";
 
 async function createInvoice({
   userId,
@@ -174,14 +165,14 @@ async function createInvoice({
 
 async function readInvoicesUser(
   userId: number,
-  status: StatusOrder | "ALL" = "ALL",
+  status: StatusInvoice | "ALL" = "ALL",
   searchQuery?: string,
   sortBy: string = "newest",
   page: number = 1,
   limit: number = 10,
 ): Promise<{
   success: boolean;
-  orders?: Order[];
+  invoices?: Invoice[];
   total?: number;
   error?: string;
 }> {
@@ -189,49 +180,62 @@ async function readInvoicesUser(
     const skip = (page - 1) * limit;
     const take = page * limit;
 
-    const userCarts = await prisma.cart.findMany({
-      select: { id: true },
-      where: { userId, state: StateCart.DISABLED },
-    });
-
-    if (!userCarts) return { success: true, orders: [], total: 0 };
-
-    const carts = userCarts.map((uc) => uc.id);
-
-    const select: Prisma.OrderSelect = {
+    const select: Prisma.InvoiceSelect = {
       id: true,
-      orderNumber: true,
-      cart: {
+      invoiceNumber: true,
+      status: true,
+      order: {
         select: {
-          _count: { select: { cartItems: true } },
+          id: true,
+          totalAmount: true,
+          cart: { select: { _count: { select: { cartItems: true } } } },
         },
         where: { userId },
       },
-      totalAmount: true,
-      status: true,
-      shippingType: true,
-      delivery: true,
+      issueDate: true,
+      dueDate: true,
+      shippingAmount: true,
+      taxAmount: true,
       createdAt: true,
     };
 
-    const where: Prisma.OrderWhereInput = {
+    const where: Prisma.InvoiceWhereInput = {
       status:
         status !== "ALL"
           ? status
           : {
-              in: Object.keys(STATUS_ORDER) as StatusOrder[],
+              in: Object.keys(StatusInvoice) as StatusInvoice[],
             },
-
-      orderNumber: {
-        contains: searchQuery,
-        mode: "insensitive",
-      },
-      cartId: { in: carts },
+      OR: [
+        {
+          trackingNumber: {
+            contains: searchQuery,
+            mode: "insensitive",
+          },
+        },
+        {
+          invoiceNumber: {
+            contains: searchQuery,
+            mode: "insensitive",
+          },
+        },
+      ],
+      userId,
     };
 
-    let orderBy: Prisma.OrderOrderByWithRelationInput;
+    let orderBy: Prisma.InvoiceOrderByWithRelationInput;
 
     switch (sortBy) {
+      case "name-asc":
+        orderBy = {
+          invoiceNumber: "asc",
+        };
+        break;
+      case "name-desc":
+        orderBy = {
+          invoiceNumber: "desc",
+        };
+        break;
       case "newest":
         orderBy = {
           createdAt: "desc",
@@ -244,26 +248,26 @@ async function readInvoicesUser(
         break;
     }
 
-    const [orders, total] = await prisma.$transaction([
-      prisma.order.findMany({
+    const [invoices, total] = await prisma.$transaction([
+      prisma.invoice.findMany({
         select,
         skip,
         take,
         where,
         orderBy,
       }),
-      prisma.order.count({
+      prisma.invoice.count({
         where,
         orderBy,
       }),
     ]);
 
-    return { success: true, orders, total };
+    return { success: true, invoices, total };
   } catch (error) {
-    console.error("Read orders user error : ", error);
+    console.error("Read invoices error : ", error);
     return {
       success: false,
-      error: logs.error.read.orders,
+      error: logs.error.read.invoices,
     };
   }
 }
@@ -376,6 +380,54 @@ async function readInvoices(
   }
 }
 
+async function readInvoiceUser(id: number): Promise<{
+  success: boolean;
+  invoice?: Invoice;
+  error?: string;
+}> {
+  try {
+    const invoice = await prisma.invoice.findUnique({
+      include: {
+        order: {
+          select: {
+            id: true,
+            orderNumber: true,
+            trackingNumber: true,
+            totalAmount: true,
+            cart: {
+              select: {
+                cartItems: {
+                  select: {
+                    quantity: true,
+                    product: {
+                      select: { name: true, sku: true, price: true },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+        transactions: { 
+          select: { id: true, transactionNumber: true },
+          where: {
+            type: { notIn: [TransactionType.SALE, TransactionType.ADJUSTMENT] },
+          },
+       },
+      },
+      where: { id },
+    });
+
+    return { success: true, invoice: invoice as Invoice };
+  } catch (error) {
+    console.error("Read invoice user error : ", error);
+    return {
+      success: false,
+      error: logs.error.read.invoice,
+    };
+  }
+}
+
 async function readInvoice(id: number): Promise<{
   success: boolean;
   invoice?: Invoice;
@@ -414,6 +466,9 @@ async function readInvoice(id: number): Promise<{
             city: true,
             country: true,
           },
+        },
+        transactions: {
+          select: { id: true, transactionNumber: true },
         },
       },
       where: { id },
@@ -484,9 +539,10 @@ async function deleteInvoice(id: number): Promise<{
 
 export {
   createInvoice,
-  readInvoicesUser,
-  readInvoices,
+  deleteInvoice,
   readInvoice,
+  readInvoices,
+  readInvoicesUser,
+  readInvoiceUser,
   updateInvoice,
-  deleteInvoice
 };

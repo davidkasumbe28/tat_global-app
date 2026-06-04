@@ -23,8 +23,8 @@ const admin = [
   },
   {
     icon: BarChart3,
-    label: "Comptes",
-    href: "/admin/accounts",
+    label: "Transactions",
+    href: "/admin/transactions",
   },
 ];
 

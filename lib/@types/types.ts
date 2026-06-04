@@ -3,6 +3,7 @@ import {
   PaymentType,
   StateCollection,
   StateProduct,
+  TransactionType,
 } from "../generated/prisma/enums";
 import shipping from "./../data/raw/shipping";
 import { order } from "./../data/raw/order";
@@ -336,6 +337,7 @@ export interface Invoice {
   paymentType: PaymentType;
   paymentMethod: PaymentMethod;
   trackingNumber: string;
+  transactions : Transaction[];
   createdAt: Date;
   updatedAt: Date;
 }
@@ -358,10 +360,14 @@ export interface Transaction {
   invoice?: Invoice;
   userId: number;
   amount: number;
+  type: TransactionType;
   method: PaymentMethod;
   status: StatusTransaction;
   reference?: string;
+  user: User;
+  _count : number;
   createdAt: Date;
+  updatedAt : Date;
 }
 
 export interface AccountLedger {

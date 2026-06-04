@@ -4,10 +4,12 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Invoice } from "@/lib/@types/types";
 import { INVOICE_STATUSES } from "@/lib/constants/constants";
 import company from "@/lib/data/raw/company";
+import { APP } from "@/lib/data/raw/routes";
 import { StatusInvoice } from "@/lib/generated/prisma/enums";
 import { formatDate } from "@/lib/utils/invoice.utils";
 import { capitalizeFirstLetter } from "@/lib/utils/string";
 import { cn } from "@/lib/utils/utils";
+import Link from "next/link";
 
 interface AdminInvoiceDetailsSheetProps {
   invoice?: Invoice;
@@ -20,7 +22,7 @@ export default function AdminInvoiceDetailsSheet({
   emuted = true,
   loading,
 }: AdminInvoiceDetailsSheetProps) {
-  console.log("Invoice in Sheet : ", invoice);
+
 
   const subtotal =
     invoice?.order?.cart?.cartItems?.reduce(
@@ -29,6 +31,8 @@ export default function AdminInvoiceDetailsSheet({
     ) || 0;
 
   const tax = subtotal * (invoice?.taxAmount || 0);
+
+  const shipping = subtotal > 50 ? "Gratuit" : invoice?.shippingAmount
 
   return (
     <div className="border border-border rounded-lg p-6 space-y-6">
@@ -107,14 +111,14 @@ export default function AdminInvoiceDetailsSheet({
                   className={cn(
                     "font-semibold",
                     !emuted &&
-                      !loading &&
-                      (invoice?.status === StatusInvoice.PAID
-                        ? "text-green-500"
-                        : invoice?.status === StatusInvoice.ISSUED
-                          ? "text-blue-500"
-                          : invoice?.status === StatusInvoice.CANCELLED
-                            ? "text-red-500"
-                            : "text-yellow-500"),
+                    !loading &&
+                    (invoice?.status === StatusInvoice.PAID
+                      ? "text-green-500"
+                      : invoice?.status === StatusInvoice.ISSUED
+                        ? "text-blue-500"
+                        : invoice?.status === StatusInvoice.CANCELLED
+                          ? "text-red-500"
+                          : "text-yellow-500"),
                   )}
                 >
                   {INVOICE_STATUSES.find(
@@ -190,7 +194,10 @@ export default function AdminInvoiceDetailsSheet({
             {invoice?.order?.cart?.cartItems?.map((item, idx) => (
               <tr key={idx} className="border-b border-border">
                 <td className="py-3 px-4">
-                  {item?.product?.name} ({item?.product?.sku}){" "}
+                  <div className="flex flex-col" >
+                    <span>{item?.product?.name}</span>
+                    <span className="text-sm text-gray-500" >{item?.product?.sku}</span>
+                  </div>
                 </td>
                 <td className="py-3 px-4 text-center">{item?.quantity}</td>
                 <td className="py-3 px-4 text-right">
@@ -206,8 +213,20 @@ export default function AdminInvoiceDetailsSheet({
       </div>
 
       {/* Totals */}
-      <div className="flex justify-end">
-        <div className="w-80 space-y-2 border-t border-gray-200 pt-4">
+      <div className={cn("flex max-md:flex-col-reverse", (invoice?.transactions?.length || 0) > 0 ? "justify-between" : "justify-end")} >
+
+        <div className="flex justify-end items-end gap-3">
+          <span className="text-gray-500" >Transactions : </span>
+          <div className="flex flex-col">
+            {invoice?.transactions?.map((txn) => (
+              <Link key={txn.id} className="hover:text-primary-dark" href={emuted && loading ? "#" : APP.admin.transactions + "/" + txn?.id} >
+                {txn.transactionNumber}
+              </Link>
+            ))}
+          </div>
+        </div>
+
+        <div className="sm:w-80 space-y-2 border-t border-gray-200 pt-4">
           <div className="flex justify-between">
             <span className="text-gray-500">Sous-total:</span>
             <span className="font-semibold">{subtotal.toFixed(2)}$</span>
@@ -217,6 +236,12 @@ export default function AdminInvoiceDetailsSheet({
               TVA ({(invoice?.taxAmount || 0) * 100}%):
             </span>
             <span className="font-semibold">{tax?.toFixed(2)}$</span>
+          </div>
+          <div className="flex justify-between">
+            <span className="text-gray-500">
+              Livraison :
+            </span>
+            <span className="font-semibold">{shipping === "Gratuit" ? shipping : shipping?.toFixed(2) + '$'}</span>
           </div>
           <div className="flex justify-between text-lg border-t border-gray-200 pt-2">
             <span className="font-bold">Total:</span>
@@ -236,8 +261,8 @@ export default function AdminInvoiceDetailsSheet({
           </div>
         )}
 
-        <div className="text-center">
-          {/* <h4 className="font-semibold mb-2">Conditions de paiement:</h4> */}
+        {/* <div className="text-center">
+          <h4 className="font-semibold mb-2">Conditions de paiement:</h4>
           <p className="text-sm text-gray-500">
             Les marchandises vendues ne sont ni échangées ni reprises
           </p>
@@ -245,7 +270,7 @@ export default function AdminInvoiceDetailsSheet({
             {" "}
             "Autorisation d'acquitter la TVA d'àprès les débits"{" "}
           </p>
-        </div>
+        </div> */}
       </div>
     </div>
   );

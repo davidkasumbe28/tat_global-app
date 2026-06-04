@@ -52,16 +52,6 @@ async function handleReadUserInvoices(
   }
 }
 
-async function handleReadUserInvoice(id: number) {
-  try {
-    const res = await api.get(API.private.myInvoices + "/" + id);
-    return res as Record<string, any>;
-  } catch (error) {
-    const err = error as Error;
-    const message = err.message;
-    return { error: message } as Record<string, any>;
-  }
-}
 
 async function handleReadInvoices(
   page?: string,
@@ -84,6 +74,17 @@ async function handleReadInvoices(
         "&sort=" +
         sort,
     );
+    return res as Record<string, any>;
+  } catch (error) {
+    const err = error as Error;
+    const message = err.message;
+    return { error: message } as Record<string, any>;
+  }
+}
+
+async function handleReadUserInvoice(id: number) {
+  try {
+    const res = await api.get(API.private.myInvoices + "/" + id);
     return res as Record<string, any>;
   } catch (error) {
     const err = error as Error;

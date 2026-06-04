@@ -47,13 +47,14 @@ export default function AccountOrderDetailPage() {
       });
   }, [success]);
 
-  if (loading) return <Loading subject="du commande" />;
+  if (loading) return <Loading subject="de la commande" />;
 
-  if (!order) return <Error error={error} />;
+  if (!order) return <Error error={error || "Aucune information disponible sur cette commande."} />;
 
   return (
     <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
       <div className="space-y-6">
+
         {/* Header */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
@@ -97,6 +98,7 @@ export default function AccountOrderDetailPage() {
               Email
             </Button>
           </div> */}
+
         </div>
 
         {/* Main Content */}

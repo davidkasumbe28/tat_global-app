@@ -15,6 +15,8 @@ export default function Footer() {
     return pathname == href;
   };
 
+  const year = new Date().getFullYear()
+
   return (
     <Skeleton emuted={isloading}>
       <footer className="bg-accent text-foreground">
@@ -141,7 +143,7 @@ export default function Footer() {
             )}
           >
             <Skeleton emuted={isloading}>
-              <p>&copy; 2025 TAT GLOBAL. Tous droits réservés.</p>
+              <p>&copy; {year} TAT GLOBAL. Tous droits réservés.</p>
             </Skeleton>
           </div>
         </div>

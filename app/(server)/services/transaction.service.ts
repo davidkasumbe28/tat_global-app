@@ -1,25 +1,15 @@
-import { SHIPPING, STATUS_ORDER, TAX } from "@/lib/constants/constants";
 import {
-  Cart,
-  Delivery,
   EntryType,
-  Order,
   PaymentMethod,
-  PaymentType,
   Prisma,
-  StateCart,
-  StatusInvoice,
   StatusOrder,
   StatusTransaction,
   Transaction,
-  TransactionType,
+  TransactionType
 } from "@/lib/generated/prisma/client";
-import { OrderInclude } from "@/lib/generated/prisma/models";
 import prisma from "@/lib/prisma";
 import logs from "@/lib/utils/logs";
 import Igt from "@/modules/class/igt/Igt";
-import { order } from "./../../../lib/data/raw/order";
-import shipping from "./../../../lib/data/raw/shipping";
 
 async function createTransaction({
   userId,
@@ -104,14 +94,14 @@ async function createTransaction({
 
 async function readTransactionsUser(
   userId: number,
-  status: StatusOrder | "ALL" = "ALL",
+  status: StatusTransaction | "ALL" = "ALL",
   searchQuery?: string,
   sortBy: string = "newest",
   page: number = 1,
   limit: number = 10,
 ): Promise<{
   success: boolean;
-  orders?: Order[];
+  transactions?: Transaction[];
   total?: number;
   error?: string;
 }> {
@@ -119,47 +109,34 @@ async function readTransactionsUser(
     const skip = (page - 1) * limit;
     const take = page * limit;
 
-    const userCarts = await prisma.cart.findMany({
-      select: { id: true },
-      where: { userId, state: StateCart.DISABLED },
-    });
-
-    if (!userCarts) return { success: true, orders: [], total: 0 };
-
-    const carts = userCarts.map((uc) => uc.id);
-
-    const select: Prisma.OrderSelect = {
+    const select: Prisma.TransactionSelect = {
       id: true,
-      orderNumber: true,
-      cart: {
-        select: {
-          _count: { select: { cartItems: true } },
-        },
-        where: { userId },
-      },
-      totalAmount: true,
+      transactionNumber: true,
+      amount: true,
+      method : true,
       status: true,
-      shippingType: true,
-      delivery: true,
+      type: true,
+      reference : true,
       createdAt: true,
     };
 
-    const where: Prisma.OrderWhereInput = {
+    const where: Prisma.TransactionWhereInput = {
       status:
         status !== "ALL"
           ? status
           : {
-              in: Object.keys(STATUS_ORDER) as StatusOrder[],
+              in: Object.keys(StatusTransaction) as StatusTransaction[],
             },
 
-      orderNumber: {
+      transactionNumber: {
         contains: searchQuery,
         mode: "insensitive",
       },
-      cartId: { in: carts },
+      type : { notIn : [TransactionType.SALE , TransactionType.ADJUSTMENT] } ,
+      userId
     };
 
-    let orderBy: Prisma.OrderOrderByWithRelationInput;
+    let orderBy: Prisma.TransactionOrderByWithRelationInput;
 
     switch (sortBy) {
       case "newest":
@@ -174,23 +151,23 @@ async function readTransactionsUser(
         break;
     }
 
-    const [orders, total] = await prisma.$transaction([
-      prisma.order.findMany({
+    const [transactions, total] = await prisma.$transaction([
+      prisma.transaction.findMany({
         select,
         skip,
         take,
         where,
         orderBy,
       }),
-      prisma.order.count({
+      prisma.transaction.count({
         where,
         orderBy,
       }),
     ]);
 
-    return { success: true, orders, total };
+    return { success: true, transactions, total };
   } catch (error) {
-    console.error("Read orders user error : ", error);
+    console.error("Read transactions user error : ", error);
     return {
       success: false,
       error: logs.error.read.orders,
@@ -219,8 +196,10 @@ async function readTransactions(
       id: true,
       transactionNumber: true,
       amount: true,
+      method : true,
       status: true,
       type: true,
+      reference : true,
       trackingNumber: true,
       createdAt: true,
     };
@@ -312,15 +291,13 @@ async function readTransactionUser(id: number): Promise<{
     const transaction = await prisma.transaction.findUnique({
       include: {
         invoice: true,
-        accountLedger: true,
-        user: true,
       },
       where: { id },
     });
 
     return { success: true, transaction: transaction as Transaction };
   } catch (error) {
-    console.error("Read transaction error : ", error);
+    console.error("Read transaction user error : ", error);
     return {
       success: false,
       error: logs.error.read.transaction,
@@ -337,7 +314,7 @@ async function readTransaction(id: number): Promise<{
     const transaction = await prisma.transaction.findUnique({
       include: {
         invoice: true,
-        accountLedger: true,
+        accountLedgers : true,
         user: true,
       },
       where: { id },
@@ -393,7 +370,7 @@ async function deleteTransaction(id: number): Promise<{
       where: { id },
     });
 
-    if (!order)
+    if (!transaction)
       return {
         success: false,
         error: logs.error.delete.transaction + ", veuillez réesseyer",
@@ -411,9 +388,11 @@ async function deleteTransaction(id: number): Promise<{
 
 export {
   createTransaction,
-  readTransactionsUser,
-  readTransactions,
-  readTransaction,
-  updateTransaction,
   deleteTransaction,
+  readTransaction,
+  readTransactions,
+  readTransactionsUser,
+  readTransactionUser,
+  updateTransaction
 };
+

@@ -1,29 +1,24 @@
 "use client";
 
-import CheckoutStepTwo from "@/components/checkout/checkout-stepTwo";
-import { DeleteButton } from "@/components/delete-button";
 import { EditButton } from "@/components/edit-button";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Collection, Order } from "@/lib/@types/types";
+import { Order } from "@/lib/@types/types";
 import {
-  CATEGORIES_PRODUCT,
   ORDER_STATUSES,
-  PAYMENT,
+  PAYMENT
 } from "@/lib/constants/constants";
 import { APP } from "@/lib/data/raw/routes";
 import {
   PaymentMethod,
   PaymentType,
-  StateCollection,
-  StatusOrder,
+  StatusOrder
 } from "@/lib/generated/prisma/enums";
 import { formatDate } from "@/lib/utils/date";
 import { capitalizeFirstLetter } from "@/lib/utils/string";
 import { cn } from "@/lib/utils/utils";
 import { Eye } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
 
 interface OrderTableProps {
   orders: Order[];
@@ -61,29 +56,6 @@ export default function OrderTable({
   newAdress,
   handleShippingChange,
 }: OrderTableProps) {
-  // const ors = [
-  //   {
-  //     id: "TAT-2025-001234",
-  //     customer: "Jean Dupont",
-  //     date: "18 Nov 2025",
-  //     amount: "251.94€",
-  //     status: "Livrée",
-  //   },
-  //   {
-  //     id: "TAT-2025-001233",
-  //     customer: "Marie Martin",
-  //     date: "17 Nov 2025",
-  //     amount: "129.99€",
-  //     status: "En transit",
-  //   },
-  //   {
-  //     id: "TAT-2025-001232",
-  //     customer: "Pierre Bernard",
-  //     date: "16 Nov 2025",
-  //     amount: "199.98€",
-  //     status: "En préparation",
-  //   },
-  // ];
 
   const types = Object.keys(PAYMENT) as PaymentType[];
 

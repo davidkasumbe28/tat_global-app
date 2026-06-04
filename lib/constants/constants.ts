@@ -9,7 +9,7 @@ import {
   StatusCustomOrder,
   // StatusInvoice,
   // StatusOrder,
-  StatusTransaction,
+  // StatusTransaction,
   StatusUser,
   Theme,
 } from "../@types/types";
@@ -23,6 +23,7 @@ import {
   StatusOrder,
   StatusInvoice,
   TransactionType,
+  StatusTransaction,
 } from "../generated/prisma/enums";
 // import { ShippingPaymentType } from "../@types/enums";
 
@@ -94,6 +95,14 @@ const INVOICE_STATUSES: { label: string; value: StatusInvoice | "ALL" }[] = [
   { label: "Payée", value: StatusInvoice.PAID },
   { label: "En retard", value: StatusInvoice.OVERDUE },
   { label: "Annulée", value: StatusInvoice.CANCELLED },
+];
+
+const TRANSACTION_STATUSES: { label: string; value: StatusTransaction | "ALL" }[] = [
+  { label: "Tous", value: "ALL" },
+  { label: "En attente", value: StatusTransaction.PENDING },
+  { label: "Échouée", value: StatusTransaction.FAILED },
+  { label: "Rembourcée", value: StatusTransaction.REFUNDED },
+  { label: "Compétée", value: StatusTransaction.COMPLETED }
 ];
 
 const PAYMENT_TYPES: { label: string; value: PaymentType | "ALL" }[] = [
@@ -272,5 +281,6 @@ export {
   USER_STATE,
   PAYMENT_TYPES,
   TRANSACTION_TYPES,
-  INVOICE_STATUSES
+  INVOICE_STATUSES,
+  TRANSACTION_STATUSES
 };

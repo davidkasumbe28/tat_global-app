@@ -1,43 +1,41 @@
-import { PaymentType, StatusOrder } from "@/lib/generated/prisma/enums";
+import { StatusTransaction, TransactionType } from "@/lib/generated/prisma/enums";
 import logs from "@/lib/utils/logs";
 import { type NextRequest, NextResponse } from "next/server";
-import { readOrders } from "../../services/order.service";
-import { createInvoice } from "../../services/invoice.service";
-import { createTransaction } from "../../services/transaction.service";
+import { createTransaction, readTransactions } from "../../services/transaction.service";
 
-// export async function GET(request: NextRequest) {
-//   try {
-//     const searchParams = request.nextUrl.searchParams;
+export async function GET(request: NextRequest) {
+  try {
+    const searchParams = request.nextUrl.searchParams;
 
-//     const paymentType = searchParams.get("paymentType") || "ALL";
-//     const status = searchParams.get("status") || "ALL";
-//     const search = searchParams.get("search") || "";
-//     const sort = searchParams.get("sort") || "newest";
-//     const page = Number.parseInt(searchParams.get("page") || "1");
-//     const limit = Number.parseInt(searchParams.get("limit") || "10");
+    const type = searchParams.get("type") || "ALL";
+    const status = searchParams.get("status") || "ALL";
+    const search = searchParams.get("search") || "";
+    const sort = searchParams.get("sort") || "newest";
+    const page = Number.parseInt(searchParams.get("page") || "1");
+    const limit = Number.parseInt(searchParams.get("limit") || "10");
 
-//     const result = await readOrders(
-//       paymentType as PaymentType | "ALL",
-//       status as StatusOrder | "ALL",
-//       search,
-//       sort,
-//       page,
-//       limit,
-//     );
+    const result = await readTransactions(
+      type as TransactionType | "ALL",
+      status as StatusTransaction | "ALL",
+      search,
+      sort,
+      page,
+      limit,
+    );
 
-//     if (!result.success) {
-//       return NextResponse.json({ error: result.error }, { status: 400 });
-//     }
+    if (!result.success) {
+      return NextResponse.json({ error: result.error }, { status: 400 });
+    }
 
-//     return NextResponse.json(
-//       { data: { orders: result.orders, total: result.total } },
-//       { status: 200 },
-//     );
-//   } catch (error) {
-//     console.error("GET orders API error:", error);
-//     return NextResponse.json({ error: logs.error.server }, { status: 500 });
-//   }
-// }
+    return NextResponse.json(
+      { data: { transactions : result.transactions, total: result.total } },
+      { status: 200 },
+    );
+  } catch (error) {
+    console.error("GET transactions API error:", error);
+    return NextResponse.json({ error: logs.error.server }, { status: 500 });
+  }
+}
 
 export async function POST(request: NextRequest) {
   try {

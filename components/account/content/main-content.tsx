@@ -28,8 +28,8 @@ export default function MainContent({
     case "settings":
       return <Settings emuted={emuted} theme={theme} />;
     case "invoices":
-      return <Invoices />;
+      return <Invoices emuted={emuted} />;
     case "transactions":
-      return <Transactions />;
+      return <Transactions emuted={emuted} />;
   }
 }
