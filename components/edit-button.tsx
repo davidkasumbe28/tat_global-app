@@ -22,6 +22,7 @@ export function EditButton({
   text = "text",
   size = "sm",
   handleEdit,
+  fullWidth = false,
   children,
 }: {
   sku: string;
@@ -31,6 +32,7 @@ export function EditButton({
   text?: string;
   size?: "sm" | "default" | "lg" | "icon" | "icon-sm" | "icon-lg";
   handleEdit: React.MouseEventHandler<HTMLButtonElement>;
+  fullWidth ?: boolean;
   children: React.ReactNode;
 }) {
   return (
@@ -42,6 +44,7 @@ export function EditButton({
           disabled={emuted}
           className={cn(
             !emuted && "text-blue-500 hover:text-background hover:bg-blue-500",
+            fullWidth && "w-full"
           )}
         >
           {useIcon && !useText ? (
@@ -66,7 +69,7 @@ export function EditButton({
         <AlertDialogFooter>
           <AlertDialogCancel>Annuler</AlertDialogCancel>
           <AlertDialogAction
-            // onClick={handleEdit}
+            onClick={handleEdit}
             className="hover:bg-primary-dark"
           >
             Confirmer

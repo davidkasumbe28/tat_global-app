@@ -39,6 +39,15 @@ export default function OrderDetailsPage() {
   // const [progress, setProgress] = useState(0);
   // const [preview, setPreview] = useState("");
   // const [selectedFile, setSelectedFile] = useState<File>();
+  const [newAdress, setNewAdress] = useState({});
+
+  const [payment, setPayment] = useState<{
+    type: PaymentType;
+    method: PaymentMethod;
+  }>({
+    type: PaymentType.IN_ONE_SLICE,
+    method: PaymentMethod.AIRTEL_MONEY,
+  });
   const [changeData, setChangeData] = useState<Record<string, any>>({});
   const [formData, setFormData] = useState<Record<string, any>>({
     // name: order?.name,
@@ -49,6 +58,29 @@ export default function OrderDetailsPage() {
     // state: order?.state,
   });
   const [managers, setManagers] = useState<Manager[]>([]);
+
+  const handleShippingChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => {
+    const { name, value } = e.target;
+    setNewAdress((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleUpdate = async (id: number) => {
+    // setLoading(true);
+
+    //   const res = await handleDeleteorder(id);
+
+    //   if (res.error) {
+    //     setError(res.error);
+    //     setLoading(false);
+    //     return;
+    //   }
+
+    // setSuccess("success");
+    // setLoading(false);
+  };
+
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -168,7 +200,7 @@ export default function OrderDetailsPage() {
   useEffect(() => {
     // if (order?.status !== StatusOrder.IN_PREPARATION) return;
     setLoading(true);
-    handleReadManagers("ALL","ALL")
+    handleReadManagers("ALL", "ALL")
       .then((res) => {
         if (res.error) {
           setError(
@@ -200,10 +232,15 @@ export default function OrderDetailsPage() {
       {/* Header */}
       <AdminOrderDetailsHeader
         order={order}
+        handleUpdate={handleUpdate}
+        handleShippingChange={handleShippingChange}
         isEditing={isEditing}
         setIsEditing={setIsEditing}
         emuted={isloading}
         loading={loading}
+        payment={payment}
+        setPayment={setPayment}
+        newAdress={newAdress}
       />
 
       {/* Main Content */}

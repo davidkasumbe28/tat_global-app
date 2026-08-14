@@ -238,7 +238,7 @@ export default function CheckoutStepTwo({
                   "bg-foreground text-background hover:bg-primary-dark",
               )}
             >
-              Continuer vers la confirmation
+              Confirmer la méthode de paiement
             </Button>
           </div>
         </div>

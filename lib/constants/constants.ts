@@ -24,6 +24,7 @@ import {
   StatusInvoice,
   TransactionType,
   StatusTransaction,
+  PaymentMethod,
 } from "../generated/prisma/enums";
 // import { ShippingPaymentType } from "../@types/enums";
 
@@ -97,18 +98,29 @@ const INVOICE_STATUSES: { label: string; value: StatusInvoice | "ALL" }[] = [
   { label: "Annulée", value: StatusInvoice.CANCELLED },
 ];
 
-const TRANSACTION_STATUSES: { label: string; value: StatusTransaction | "ALL" }[] = [
+const TRANSACTION_STATUSES: {
+  label: string;
+  value: StatusTransaction | "ALL";
+}[] = [
   { label: "Tous", value: "ALL" },
   { label: "En attente", value: StatusTransaction.PENDING },
   { label: "Échouée", value: StatusTransaction.FAILED },
   { label: "Rembourcée", value: StatusTransaction.REFUNDED },
-  { label: "Compétée", value: StatusTransaction.COMPLETED }
+  { label: "Complétée", value: StatusTransaction.COMPLETED },
 ];
 
 const PAYMENT_TYPES: { label: string; value: PaymentType | "ALL" }[] = [
   { label: "Tous", value: "ALL" },
   { label: "En une tranche", value: PaymentType.IN_ONE_SLICE },
   { label: "En deux tranhes", value: PaymentType.IN_TWO_SLICES },
+];
+
+const PAYMENT_METHOD: { label: string; value: PaymentMethod }[] = [
+  { label: "Airtel Money", value: PaymentMethod.AIRTEL_MONEY },
+  { label: "M-Pesa", value: PaymentMethod.MPESA },
+  { label: "Cash", value: PaymentMethod.CASH_ON_DELIVERY },
+  { label: "Carte bancaire", value: PaymentMethod.CARD },
+  { label: "PayPal", value: PaymentMethod.PAYPAL },
 ];
 
 const COLLECTION_COLORS: { label: string; value: string }[] = [
@@ -280,7 +292,8 @@ export {
   AVAILABILITY_STATE,
   USER_STATE,
   PAYMENT_TYPES,
+  PAYMENT_METHOD,
   TRANSACTION_TYPES,
   INVOICE_STATUSES,
-  TRANSACTION_STATUSES
+  TRANSACTION_STATUSES,
 };

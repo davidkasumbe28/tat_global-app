@@ -1,5 +1,8 @@
 "use client";
 
+import { CheckButton } from "@/components/check-button";
+import { ModalButton } from "@/components/modal-button";
+import { SaveButton } from "@/components/save-button";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Manager, Order } from "@/lib/@types/types";
@@ -112,7 +115,7 @@ export default function AdminOrderDetailsColTwo({
     if (res.error) {
       setError(
         res.error ||
-          "Une erreur est survenue lors de la création de la facture",
+        "Une erreur est survenue lors de la création de la facture",
       );
       setLoading(false);
       return;
@@ -153,7 +156,7 @@ export default function AdminOrderDetailsColTwo({
     if (res.error) {
       setError(
         res.error ||
-          "Une erreur est survenue lors de la transaction du paiement",
+        "Une erreur est survenue lors de la transaction du paiement",
       );
       setLoading(false);
       return;
@@ -182,7 +185,7 @@ export default function AdminOrderDetailsColTwo({
     if (res.error) {
       setError(
         res.error ||
-          "Une erreur est survenue lors de la designation du livreur",
+        "Une erreur est survenue lors de la designation du livreur",
       );
       setLoading(false);
       return;
@@ -211,13 +214,13 @@ export default function AdminOrderDetailsColTwo({
                 className={cn(
                   "px-3 py-1 rounded-full text-sm font-semibold ",
                   !emuted &&
-                    (order?.status === StatusOrder.DELIVERED
-                      ? "bg-green-100 text-green-700"
-                      : order?.status === StatusOrder.PENDING
-                        ? "bg-blue-100 text-blue-700"
-                        : order?.status === StatusOrder.CANCELLED
-                          ? "bg-red-100 text-red-700"
-                          : "bg-yellow-100 text-yellow-700"),
+                  (order?.status === StatusOrder.DELIVERED
+                    ? "bg-green-100 text-green-700"
+                    : order?.status === StatusOrder.PENDING
+                      ? "bg-blue-100 text-blue-700"
+                      : order?.status === StatusOrder.CANCELLED
+                        ? "bg-red-100 text-red-700"
+                        : "bg-yellow-100 text-yellow-700"),
                 )}
               >
                 {ORDER_STATUSES.map((status) => {
@@ -251,9 +254,9 @@ export default function AdminOrderDetailsColTwo({
               <span
                 className={cn(
                   !emuted &&
-                    !loading &&
-                    subTotal > SHIPPING &&
-                    "text-green-600",
+                  !loading &&
+                  subTotal > SHIPPING &&
+                  "text-green-600",
                 )}
               >
                 {subTotal > SHIPPING ? "Gratuit" : SHIPPING.toFixed(2) + "$"}
@@ -292,7 +295,7 @@ export default function AdminOrderDetailsColTwo({
                 className={cn(
                   "w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-foreground",
                   (emuted || loading) &&
-                    "bg-muted-foreground text-muted-foreground animate-pulse",
+                  "bg-muted-foreground text-muted-foreground animate-pulse",
                 )}
               />
               <Button
@@ -306,8 +309,8 @@ export default function AdminOrderDetailsColTwo({
                 className={cn(
                   "w-full",
                   !emuted &&
-                    !loading &&
-                    "bg-foreground text-background hover:bg-primary-dark",
+                  !loading &&
+                  "bg-foreground text-background hover:bg-primary-dark",
                 )}
               >
                 Mettre à jour
@@ -316,111 +319,25 @@ export default function AdminOrderDetailsColTwo({
           )}
       </div>
 
-      {/* Plan delivery */}
-      {order?.status === StatusOrder.IN_PREPARATION &&
-        !order?.delivery?.deliveryPersonId && (
-          <div className="space-y-2 border rounded-lg p-5">
-            <Skeleton emuted={emuted}>
-              <span className="text-lg font-bold">Désignation du livreur</span>
-            </Skeleton>
-
-            <select
-              value={deliveryPersonId}
-              required
-              onChange={(e) => setDeliveryPersonId(parseInt(e.target.value))}
-              disabled={emuted || loading}
-              className={cn(
-                "w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-foreground",
-                (emuted || loading) &&
-                  "bg-muted-foreground text-muted-foreground animate-pulse",
-              )}
-            >
-              {managers.map((manager, index) => (
-                <option className="text-black" key={index} value={manager.id}>
-                  {capitalizeFirstLetter(manager.firstName) +
-                    " " +
-                    capitalizeFirstLetter(manager.lastName)}
-                </option>
-              ))}
-            </select>
-
-            <div className="space-y-2">
-              <Button
-                variant={emuted || loading ? "emuted" : "outline"}
-                onClick={() => setSure(true)}
-                className={cn(
-                  "w-full",
-                  !emuted &&
-                    !loading &&
-                    " text-yellow-500 hover:text-yellow-500 bg-transparent",
-                )}
-              >
-                Désigner
-              </Button>
-              {sure && (
-                <div className="grid grid-cols-2 gap-2">
-                  <Button
-                    variant={emuted || loading ? "emuted" : "outline"}
-                    onClick={() => setSure(false)}
-                    className={cn(!emuted && !loading && " bg-transparent")}
-                  >
-                    <X />
-                  </Button>
-                  <Button
-                    variant={emuted || loading ? "emuted" : "default"}
-                    onClick={handlePlanDelivery}
-                    className={cn(
-                      !emuted &&
-                        !loading &&
-                        "text-background hover:bg-primary-dark",
-                    )}
-                  >
-                    <Check />
-                  </Button>
-                </div>
-              )}
-            </div>
-          </div>
-        )}
-
       {/* Confirmation */}
       <>
         {order?.status === StatusOrder.PENDING && (
-          <div className="space-y-2">
-            <Button
-              variant={emuted || loading ? "emuted" : "outline"}
-              onClick={() => setSure(true)}
-              className={cn(
-                "w-full",
-                !emuted &&
-                  !loading &&
-                  " text-yellow-500 hover:text-yellow-500 bg-transparent",
-              )}
+          <div className="w-full flex justify-end items-end" >
+            <CheckButton
+              sku={order?.orderNumber}
+              handleCheck={handleConfirm}
+              text="la commande"
+              emuted={emuted}
+              size="lg"
+              useText
+              fullWidth
             >
-              Confirmer la commande
-            </Button>
-            {sure && (
-              <div className="grid grid-cols-2 gap-2">
-                <Button
-                  variant={emuted || loading ? "emuted" : "outline"}
-                  onClick={() => setSure(false)}
-                  className={cn(!emuted && !loading && " bg-transparent")}
-                >
-                  <X />
-                </Button>
-                <Button
-                  variant={emuted || loading ? "emuted" : "default"}
-                  onClick={handleConfirm}
-                  className={cn(
-                    !emuted &&
-                      !loading &&
-                      "text-background hover:bg-primary-dark",
-                  )}
-                >
-                  <Check />
-                </Button>
-              </div>
-            )}
+              <Skeleton emuted={emuted}>
+                <span>
+                  Voulez vous confirmez la commande {order?.orderNumber} ?
+                </span>
+              </Skeleton>
+            </CheckButton>
           </div>
         )}
       </>
@@ -433,90 +350,115 @@ export default function AdminOrderDetailsColTwo({
               <span className="text-lg font-bold">
                 Paiement{" "}
                 {order.paymentType === PaymentType.IN_ONE_SLICE
-                  ? "1ere tranche"
+                  ? "en une tranche"
                   : ""}{" "}
               </span>
             </Skeleton>
 
-            {order.paymentMethod !== PaymentMethod.CASH_ON_DELIVERY && (
-              <>
-                <input
-                  value={newTransaction.amount}
-                  type="number"
-                  name="amount"
-                  onChange={handleChangeTransaction}
-                  required
-                  disabled={emuted || loading}
-                  className={cn(
-                    "w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-foreground",
-                    (emuted || loading) &&
-                      "bg-muted-foreground text-muted-foreground animate-pulse",
-                  )}
-                />
-                <select
-                  value={newTransaction.method}
-                  required
-                  name="method"
-                  onChange={handleChangeTransaction}
-                  disabled={emuted || loading}
-                  className={cn(
-                    "w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-foreground",
-                    (emuted || loading) &&
-                      "bg-muted-foreground text-muted-foreground animate-pulse",
-                  )}
-                >
-                  {Object.keys(PAYMENT.IN_ONE_SLICE.options).map(
-                    (option, index) => {
-                      if (option !== "CASH_ON_DELIVERY")
-                        return (
-                          <option
-                            className="text-black"
-                            key={index}
-                            value={option}
-                          >
-                            {PAYMENT.IN_ONE_SLICE.options[option]}
-                          </option>
-                        );
-                    },
-                  )}
-                </select>
-                <select
-                  value={newTransaction.type}
-                  required
-                  onChange={handleChangeTransaction}
-                  name="type"
-                  disabled={emuted || loading}
-                  className={cn(
-                    "w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-foreground",
-                    (emuted || loading) &&
-                      "bg-muted-foreground text-muted-foreground animate-pulse",
-                  )}
-                >
-                  {TRANSACTION_TYPES.map((type, index) => {
-                    if (type.value !== "ALL")
-                      return (
-                        <option
-                          className="text-black"
-                          key={index}
-                          value={type.value}
-                        >
-                          {type.label}
-                        </option>
-                      );
-                  })}
-                </select>
-              </>
-            )}
+            <div>
+              <SaveButton
+                sku={"Transaction " + order?.orderNumber}
+                handleSave={handleSaveTransaction}
+                text="la transaction"
+                emuted={emuted}
+                size="lg"
+                useText
+                fullWidth
+              >
 
-            <div className="space-y-2">
+                {order.paymentMethod !== PaymentMethod.CASH_ON_DELIVERY ? (
+                  <>
+                    <input
+                      value={newTransaction.amount}
+                      type="number"
+                      name="amount"
+                      onChange={handleChangeTransaction}
+                      required
+                      disabled={emuted || loading}
+                      className={cn(
+                        "w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-foreground",
+                        (emuted || loading) &&
+                        "bg-muted-foreground text-muted-foreground animate-pulse",
+                      )}
+                    />
+                    <select
+                      value={newTransaction.method}
+                      required
+                      name="method"
+                      onChange={handleChangeTransaction}
+                      disabled={emuted || loading}
+                      className={cn(
+                        "w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-foreground",
+                        (emuted || loading) &&
+                        "bg-muted-foreground text-muted-foreground animate-pulse",
+                      )}
+                    >
+                      {Object.keys(PAYMENT.IN_ONE_SLICE.options).map(
+                        (option, index) => {
+                          if (option !== "CASH_ON_DELIVERY")
+                            return (
+                              <option
+                                className="text-black"
+                                key={index}
+                                value={option}
+                              >
+                                {PAYMENT.IN_ONE_SLICE.options[option]}
+                              </option>
+                            );
+                        },
+                      )}
+                    </select>
+                    <select
+                      value={newTransaction.type}
+                      required
+                      onChange={handleChangeTransaction}
+                      name="type"
+                      disabled={emuted || loading}
+                      className={cn(
+                        "w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-foreground",
+                        (emuted || loading) &&
+                        "bg-muted-foreground text-muted-foreground animate-pulse",
+                      )}
+                    >
+                      {TRANSACTION_TYPES.map((type, index) => {
+                        if (type.value !== "ALL")
+                          return (
+                            <option
+                              className="text-black"
+                              key={index}
+                              value={type.value}
+                            >
+                              {type.label}
+                            </option>
+                          );
+                      })}
+                    </select>
+                  </>
+                )
+                  :
+                  (
+                    <Skeleton emuted={emuted}>
+                      <span>
+                        Enregistrer la transaction de la commande {order?.orderNumber} ? <br /> Paiement en une tranche cash à la livraison
+                      </span>
+                    </Skeleton>
+                  )
+
+                }
+
+              </SaveButton>
+            </div>
+
+
+            {/* <div className="space-y-2">
               <Button
                 variant={emuted || loading ? "emuted" : "outline"}
                 onClick={() => setSure(true)}
                 className={cn(
                   "w-full",
                   !emuted &&
-                    !loading &&
-                    " text-yellow-500 hover:text-yellow-500 bg-transparent",
+                  !loading &&
+                  " text-yellow-500 hover:text-yellow-500 bg-transparent",
                 )}
               >
                 Enregistrer
@@ -535,18 +477,107 @@ export default function AdminOrderDetailsColTwo({
                     onClick={handleSaveTransaction}
                     className={cn(
                       !emuted &&
-                        !loading &&
-                        "text-background hover:bg-primary-dark",
+                      !loading &&
+                      "text-background hover:bg-primary-dark",
                     )}
                   >
                     <Check />
                   </Button>
                 </div>
               )}
-            </div>
+            </div> */}
           </div>
         )}
       </>
+
+
+      {/* Plan delivery */}
+      {order?.status === StatusOrder.IN_PREPARATION &&
+        !order?.delivery?.deliveryPersonId && (
+          <div className="space-y-2 border rounded-lg p-5">
+            <Skeleton emuted={emuted}>
+              <span className="text-lg font-bold">Désignation du livreur</span>
+            </Skeleton>
+
+            <select
+              value={deliveryPersonId}
+              required
+              onChange={(e) => setDeliveryPersonId(parseInt(e.target.value))}
+              disabled={emuted || loading}
+              className={cn(
+                "w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-foreground",
+                (emuted || loading) &&
+                "bg-muted-foreground text-muted-foreground animate-pulse",
+              )}
+            >
+              {managers.map((manager, index) => (
+                <option className="text-black" key={index} value={manager.id}>
+                  {capitalizeFirstLetter(manager.firstName) +
+                    " " +
+                    capitalizeFirstLetter(manager.lastName)}
+                </option>
+              ))}
+            </select>
+
+            <div>
+              <ModalButton
+                description={"Design delivery person order " + order?.orderNumber}
+                handler={handlePlanDelivery}
+                title="Designez le livreur pour la commande"
+                label="Designer le livreur"
+                emuted={emuted}
+                size="lg"
+                fullWidth
+              >
+                <Skeleton emuted={emuted}>
+                  <span>
+                    Pour la commande {order?.orderNumber} vous avez designé un livreur {deliveryPersonId}, voulez vous continuer ?
+                  </span>
+                </Skeleton>
+
+              </ModalButton>
+            </div>
+
+            {/* <div className="space-y-2">
+              <Button
+                variant={emuted || loading ? "emuted" : "outline"}
+                onClick={() => setSure(true)}
+                className={cn(
+                  "w-full",
+                  !emuted &&
+                  !loading &&
+                  " text-yellow-500 hover:text-yellow-500 bg-transparent",
+                )}
+              >
+                Désigner
+              </Button>
+              {sure && (
+                <div className="grid grid-cols-2 gap-2">
+                  <Button
+                    variant={emuted || loading ? "emuted" : "outline"}
+                    onClick={() => setSure(false)}
+                    className={cn(!emuted && !loading && " bg-transparent")}
+                  >
+                    <X />
+                  </Button>
+                  <Button
+                    variant={emuted || loading ? "emuted" : "default"}
+                    onClick={handlePlanDelivery}
+                    className={cn(
+                      !emuted &&
+                      !loading &&
+                      "text-background hover:bg-primary-dark",
+                    )}
+                  >
+                    <Check />
+                  </Button>
+                </div>
+              )}
+            </div> */}
+          </div>
+        )}
+
+
     </div>
   );
 }

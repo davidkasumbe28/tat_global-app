@@ -52,7 +52,6 @@ async function handleReadUserInvoices(
   }
 }
 
-
 async function handleReadInvoices(
   page?: string,
   limit?: string,
@@ -151,6 +150,22 @@ async function handleDeleteOrder(id: number) {
   }
 }
 
+async function handleReadSelectInvoices(
+  status?: StatusInvoice | "ALL",
+  sort?: string,
+) {
+  try {
+    const res = await api.get(
+      API.private.invoices + "/select" + "?status=" + status + "&sort=" + sort,
+    );
+    return res as Record<string, any>;
+  } catch (error) {
+    const err = error as Error;
+    const message = err.message;
+    return { error: message } as Record<string, any>;
+  }
+}
+
 export {
   handleCreateInvoice,
   handleReadUserInvoices,
@@ -161,4 +176,5 @@ export {
   handleReadInvoice,
   handleUpdateInvoice,
   // handleDeleteOrder,
+  handleReadSelectInvoices
 };

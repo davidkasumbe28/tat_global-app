@@ -16,17 +16,25 @@ import { formatDate } from "@/lib/utils/date";
 import { cn } from "@/lib/utils/utils";
 import { Eye } from "lucide-react";
 import Link from "next/link";
+import { Skeleton } from "@/components/ui/skeleton";
+
 
 interface AdminTransactionTableProps {
     transactions: Transaction[];
+    handleUpdate: (id: number) => void;
     emuted?: boolean;
     loading: boolean
+    transactionStatus: StatusTransaction | undefined;
+    setTransactionStatus: React.Dispatch<React.SetStateAction<StatusTransaction | undefined>>;
 }
 
 export default function AdminTransactionTable({
     transactions,
+    handleUpdate,
     emuted = true,
     loading,
+    transactionStatus,
+    setTransactionStatus,
 }: AdminTransactionTableProps) {
 
     return (
@@ -72,6 +80,7 @@ export default function AdminTransactionTable({
                                 {txn.reference}
                             </td>
                             <td className="py-3 px-4">
+
                                 <span
                                     className={`px-3 py-1 rounded-full text-xs font-semibold ${txn.status === StatusTransaction.COMPLETED
                                         ? "bg-green-100 text-green-700"
@@ -88,8 +97,8 @@ export default function AdminTransactionTable({
                                     >
                                         <Button
                                             size="sm"
-                                            variant={emuted ? "emuted" : "default"}
-                                            className={cn(!emuted && " hover:bg-primary-dark")}
+                                            variant={emuted || loading ? "emuted" : "default"}
+                                            className={cn(!emuted && !loading && " hover:bg-primary-dark")}
                                         >
                                             <Eye className={cn("w-4 h-4")} />
                                         </Button>
@@ -98,57 +107,58 @@ export default function AdminTransactionTable({
                                     {
                                         <EditButton
                                             sku={txn.transactionNumber}
-                                            //   handleEdit={() => handleUpdate(invoice.id)}
-                                            handleEdit={() => { }}
-
+                                            handleEdit={() => handleUpdate(txn.id)}
                                             text="transaction"
-                                            emuted={emuted}
+                                            emuted={emuted || loading}
                                         >
                                             <div>
-                                                {/* <div className="space-y-1">
-                          {INVOICE_STATUSES.map(
-                            (
-                              status: {
-                                label: string;
-                                value: StatusInvoice | "ALL";
-                              },
-                              index: number,
-                            ) =>
-                              status.value !== "ALL" && (
-                                <label
-                                  key={index}
-                                  className={cn(
-                                    "flex items-center gap-2 py-2 px-4 border border-border rounded-lg cursor-pointer transition",
-                                    emuted
-                                      ? "bg-transparent animate-pulse"
-                                      : "hover:bg-accent",
-                                  )}
-                                >
-                                  <input
-                                    type="radio"
-                                    disabled={emuted}
-                                    value={status.value}
-                                    checked={invoiceStatus == status.value || txn.status == status.value}
-                                    onChange={() =>
-                                      setInvoiceStatus(status.value as StatusInvoice)
-                                    }
-                                    className={cn(
-                                      "w-4 h-4",
-                                      emuted &&
-                                        "cursor-not-allowed animate-pulse",
-                                    )}
-                                  />
-                                  <Skeleton emuted={emuted}>
-                                    <span>{status.label}</span>
-                                  </Skeleton>
-                                </label>
-                              ),
-                          )}
-                        </div> */}
+                                                <div className="space-y-1">
+                                                    {TRANSACTION_STATUSES.map(
+                                                        (
+                                                            status: {
+                                                                label: string;
+                                                                value: StatusTransaction | "ALL";
+                                                            },
+                                                            index: number,
+                                                        ) =>
+                                                            status.value !== "ALL" && status.value !== txn.status && (
+                                                                <label
+                                                                    key={index}
+                                                                    className={cn(
+                                                                        "flex items-center gap-2 py-2 px-4 border border-border rounded-lg cursor-pointer transition",
+                                                                        emuted
+                                                                            ? "bg-transparent animate-pulse"
+                                                                            : "hover:bg-accent",
+                                                                    )}
+                                                                >
+                                                                    <input
+                                                                        type="radio"
+                                                                        disabled={emuted}
+                                                                        value={status.value}
+                                                                        checked={status.value == txn.status && !transactionStatus ? txn.status == status.value : transactionStatus == status.value}
+                                                                        onChange={() =>
+                                                                            setTransactionStatus(status.value as StatusTransaction)
+                                                                        }
+                                                                        className={cn(
+                                                                            "w-4 h-4",
+                                                                            emuted &&
+                                                                            "cursor-not-allowed animate-pulse",
+                                                                        )}
+                                                                    />
+                                                                    <Skeleton emuted={emuted}>
+                                                                        <span>{status.label}</span>
+                                                                    </Skeleton>
+                                                                </label>
+                                                            ),
+                                                    )}
+                                                </div>
 
-                                                <p className=" font-extralight text-end text-sm text-gray-500 py-4">
-                                                    Voulez-vous vraiment modifier cette transaction ?
-                                                </p>
+                                                <Skeleton emuted={emuted}>
+                                                    <p className=" font-extralight text-end text-sm text-gray-500 py-4">
+                                                        Voulez-vous vraiment modifier cette transaction ?
+                                                    </p>
+                                                </Skeleton>
+
                                             </div>
                                         </EditButton>
                                     }

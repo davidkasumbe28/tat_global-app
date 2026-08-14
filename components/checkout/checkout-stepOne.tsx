@@ -204,7 +204,7 @@ export default function CheckoutStepOne({
                   "bg-foreground text-background hover:bg-primary-dark ",
               )}
             >
-              Continuer vers le paiement
+              Confirmer l'adresse
             </Button>
           </div>
         </form>

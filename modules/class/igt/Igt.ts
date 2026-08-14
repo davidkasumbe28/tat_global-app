@@ -1,7 +1,7 @@
 import { formatNumber } from "@/lib/utils/number";
 import { acronyme } from "@/lib/utils/string";
 
-type IGTType = "ORD" | "PRD" | "CLT" | "INV" | "DLY" | "TRS" | "ACT";
+type IGTType = "USR" | "ORD" | "PRD" | "CLT" | "INV" | "DLY" | "TRS" | "ACT";
 
 class Igt {
   // 0 1 2 3 4 5 6 7 8 9
@@ -9,6 +9,7 @@ class Igt {
   // K L M N O P Q R S T
   // U V W X Y Z
   #typeCode: Record<IGTType, number[]> = {
+    USR: [0, 8, 7],
     ORD: [4, 7, 3],
     PRD: [5, 7, 3],
     CLT: [4, 1, 9],

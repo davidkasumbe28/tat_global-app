@@ -21,6 +21,7 @@ export function ChangeStateButton({
   text = "text",
   currentState = "ENABLED",
   size = "sm",
+  fullWidth = false,
   handleChangeState,
 }: {
   useIcon?: boolean;
@@ -29,6 +30,7 @@ export function ChangeStateButton({
   text?: string;
   currentState: "ENABLED" | "DISABLED";
   size?: "sm" | "default" | "lg" | "icon" | "icon-sm" | "icon-lg";
+  fullWidth ?: boolean;
   handleChangeState: React.MouseEventHandler<HTMLButtonElement>;
 }) {
   return (
@@ -42,6 +44,7 @@ export function ChangeStateButton({
             !emuted && currentState !== "ENABLED"
               ? "text-blue-600 hover:text-background hover:bg-blue-600"
               : "text-destructive hover:text-background hover:bg-destructive",
+              fullWidth && "w-full"
           )}
         >
           {useIcon && !useText ? (

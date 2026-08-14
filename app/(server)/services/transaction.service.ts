@@ -2,10 +2,11 @@ import {
   EntryType,
   PaymentMethod,
   Prisma,
+  StatusInvoice,
   StatusOrder,
   StatusTransaction,
   Transaction,
-  TransactionType
+  TransactionType,
 } from "@/lib/generated/prisma/client";
 import prisma from "@/lib/prisma";
 import logs from "@/lib/utils/logs";
@@ -42,6 +43,7 @@ async function createTransaction({
       invoiceId,
       amount: parseFloat(amount),
       method,
+      status: StatusTransaction.COMPLETED,
       type,
       reference,
       trackingNumber: igt.generateCode(
@@ -63,13 +65,65 @@ async function createTransaction({
         data: { status: StatusOrder.IN_PREPARATION },
       });
 
+      const lastEntry = await tx.accountLedger.findFirst({
+        where: {
+          entryType: EntryType.CREDIT,
+          transaction: { invoiceId: transaction.invoice?.id },
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+        select: {
+          balance: true,
+        },
+      });
+
+      const balance = parseFloat(lastEntry?.balance?.toString() ?? "0");
+
+      const totalDebit = await tx.accountLedger.aggregate({
+        where: {
+          entryType: EntryType.DEBIT,
+          transaction: { invoiceId: transaction.invoice?.id },
+        },
+        _sum: {
+          balance: true,
+        },
+      });
+
+      const balanceInvoice =
+        balance +
+        transaction.amount -
+        parseFloat(totalDebit._sum.balance?.toString() ?? "0");
+
       const newAccountLedger: Prisma.AccountLedgerUncheckedCreateInput = {
-        wording: "",
+        wording: igt.generateNumber("USR", userId as number),
         entryType: EntryType.CREDIT,
         description: "",
-        balance: order.totalAmount,
+        balance: balance + transaction.amount,
         transactionId: transaction.id,
       };
+
+      if (balanceInvoice == 0) {
+        await tx.transaction.updateMany({
+          where: { invoiceId: transaction.invoice?.id },
+          data: {
+            status: StatusTransaction.COMPLETED,
+          },
+        });
+        await tx.invoice.update({
+          where: { id: transaction.invoice?.id },
+          data: {
+            status: StatusInvoice.PAID,
+          },
+        });
+      } else if (balanceInvoice < 0) {
+        await tx.invoice.update({
+          where: { id: transaction.invoice?.id },
+          data: {
+            status: StatusInvoice.OVERDUE,
+          },
+        });
+      }
 
       await tx.accountLedger.create({ data: newAccountLedger });
 
@@ -113,10 +167,10 @@ async function readTransactionsUser(
       id: true,
       transactionNumber: true,
       amount: true,
-      method : true,
+      method: true,
       status: true,
       type: true,
-      reference : true,
+      reference: true,
       createdAt: true,
     };
 
@@ -132,8 +186,8 @@ async function readTransactionsUser(
         contains: searchQuery,
         mode: "insensitive",
       },
-      type : { notIn : [TransactionType.SALE , TransactionType.ADJUSTMENT] } ,
-      userId
+      type: { notIn: [TransactionType.SALE, TransactionType.ADJUSTMENT] },
+      userId,
     };
 
     let orderBy: Prisma.TransactionOrderByWithRelationInput;
@@ -196,10 +250,10 @@ async function readTransactions(
       id: true,
       transactionNumber: true,
       amount: true,
-      method : true,
+      method: true,
       status: true,
       type: true,
-      reference : true,
+      reference: true,
       trackingNumber: true,
       createdAt: true,
     };
@@ -314,7 +368,7 @@ async function readTransaction(id: number): Promise<{
     const transaction = await prisma.transaction.findUnique({
       include: {
         invoice: true,
-        accountLedgers : true,
+        accountLedgers: true,
         user: true,
       },
       where: { id },
@@ -386,6 +440,85 @@ async function deleteTransaction(id: number): Promise<{
   }
 }
 
+async function readTransactionsSummary(): Promise<{
+  success: boolean;
+  summary?: {
+    totalTransactions: number;
+    totalReceipt: number;
+    completedTransactions: number;
+    pendingTransactions: number;
+    failedTransactions: number;
+    refundedTransactions: number;
+    saleTransactions: number;
+    receiptTransactions: number;
+    refundTransactions: number;
+    adjustmentTransactions: number;
+  };
+  error?: string;
+}> {
+  try {
+    const select: Prisma.TransactionSelect = {
+      id: true,
+      transactionNumber: true,
+      amount: true,
+      method: true,
+      status: true,
+      type: true,
+      reference: true,
+      trackingNumber: true,
+      createdAt: true,
+    };
+
+    const [transactions, total] = await prisma.$transaction([
+      prisma.transaction.findMany({ select }),
+      prisma.transaction.count(),
+    ]);
+
+    const summary = {
+      totalTransactions: total,
+      totalReceipt: transactions
+        .filter(
+          (t) =>
+            t.status === StatusTransaction.COMPLETED &&
+            t.type === TransactionType.RECEIPT,
+        )
+        .reduce((sum, t) => sum + t.amount, 0),
+      completedTransactions: transactions.filter(
+        (t) => t.status === StatusTransaction.COMPLETED,
+      ).length,
+      pendingTransactions: transactions.filter(
+        (t) => t.status === StatusTransaction.PENDING,
+      ).length,
+      failedTransactions: transactions.filter(
+        (t) => t.status === StatusTransaction.FAILED,
+      ).length,
+      refundedTransactions: transactions.filter(
+        (t) => t.status === StatusTransaction.REFUNDED,
+      ).length,
+      saleTransactions: transactions.filter(
+        (t) => t.type === TransactionType.SALE,
+      ).length,
+      receiptTransactions: transactions.filter(
+        (t) => t.type === TransactionType.RECEIPT,
+      ).length,
+      refundTransactions: transactions.filter(
+        (t) => t.type === TransactionType.REFUND,
+      ).length,
+      adjustmentTransactions: transactions.filter(
+        (t) => t.type === TransactionType.ADJUSTMENT,
+      ).length,
+    };
+
+    return { success: true, summary };
+  } catch (error) {
+    console.error("Read transactions summary error : ", error);
+    return {
+      success: false,
+      error: logs.error.read.transactions,
+    };
+  }
+}
+
 export {
   createTransaction,
   deleteTransaction,
@@ -393,6 +526,6 @@ export {
   readTransactions,
   readTransactionsUser,
   readTransactionUser,
-  updateTransaction
+  updateTransaction,
+  readTransactionsSummary,
 };
-

@@ -110,8 +110,10 @@ async function handleReadTransaction(id: number) {
   }
 }
 
-
-async function handleUpdateTransaction(id: number, formData: Record<string, any>) {
+async function handleUpdateTransaction(
+  id: number,
+  formData: Record<string, any>,
+) {
   try {
     const res = await api.patch(API.private.transactions + "/" + id, formData);
     return res as Record<string, any>;
@@ -133,6 +135,18 @@ async function handleDeleteTransaction(id: number) {
   }
 }
 
+async function handleReadTransactionsSummary() {
+  try {
+    const res = await api.get(API.private.transactions + "/summary");
+    return res as Record<string, any>;
+  } catch (error) {
+    const err = error as Error;
+    const message = err.message;
+    return { error: message } as Record<string, any>;
+  }
+}
+
+
 export {
   handleCreateTransaction,
   handleReadUserTransactions,
@@ -141,4 +155,5 @@ export {
   handleReadTransaction,
   handleUpdateTransaction,
   handleDeleteTransaction,
+  handleReadTransactionsSummary,
 };

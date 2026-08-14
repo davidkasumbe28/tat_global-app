@@ -70,11 +70,11 @@ export default function CheckoutStepConfirmation({
     setNewOrder(res.data);
     setCurrentStep(CheckoutSteps.CONFIRMATION);
     setOrderConfirmed(true);
-    setLoading(false);
-    // setTimeout(() => {
     // setLoading(false);
-    //   router.push("/account/order/" + res.data.id);
-    // });
+    setTimeout(() => {
+      setLoading(false);
+      router.push("/account/orders/" + res.data.id);
+    }, 1000);
   };
 
   return (
@@ -246,8 +246,8 @@ export default function CheckoutStepConfirmation({
                   className={cn(
                     "py-6",
                     !emuted &&
-                      !loading &&
-                      "bg-foreground text-background hover:bg-primary-dark",
+                    !loading &&
+                    "bg-foreground text-background hover:bg-primary-dark",
                   )}
                 >
                   Confirmer la commande

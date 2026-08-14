@@ -23,7 +23,6 @@
 -- complete contact api
 -- fix order paymentType
 -- fix model invoice and order
-
-
+-- fix checkout order confirmation 
 
 <!-- api -->

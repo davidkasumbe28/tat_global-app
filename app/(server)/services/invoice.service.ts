@@ -130,12 +130,12 @@ async function createInvoice({
         method: order.paymentMethod,
         status: "PENDING",
         type: TransactionType.SALE,
-        reference: `Emission de la facture ${invoice.id}`,
+        reference: "REF" + Date.now(),
         trackingNumber: igt.generateCode(invoice.id, "TRS"),
       };
 
       const newAccountLedger: Prisma.AccountLedgerCreateInput = {
-        wording: "",
+        wording: igt.generateNumber("USR", userId as number),
         entryType: EntryType.DEBIT,
         description: "",
         balance: order.totalAmount,
@@ -408,12 +408,12 @@ async function readInvoiceUser(id: number): Promise<{
             },
           },
         },
-        transactions: { 
+        transactions: {
           select: { id: true, transactionNumber: true },
           where: {
             type: { notIn: [TransactionType.SALE, TransactionType.ADJUSTMENT] },
           },
-       },
+        },
       },
       where: { id },
     });
@@ -537,6 +537,73 @@ async function deleteInvoice(id: number): Promise<{
   }
 }
 
+async function readInvoicesSelect(
+  status: StatusInvoice | "ALL" = "ALL",
+  sortBy: string = "newest",
+): Promise<{
+  success: boolean;
+  invoices?: Invoice[];
+  error?: string;
+}> {
+  try {
+    const select: Prisma.InvoiceSelect = {
+      id: true,
+      invoiceNumber: true,
+      userId : true,
+      status: true,
+      shippingAmount: true,
+    };
+
+    const where: Prisma.InvoiceWhereInput = {
+      status:
+        status !== "ALL"
+          ? status
+          : {
+              in: Object.keys(StatusInvoice) as StatusInvoice[],
+            },
+    };
+
+    let orderBy: Prisma.InvoiceOrderByWithRelationInput;
+
+    switch (sortBy) {
+      case "name-asc":
+        orderBy = {
+          invoiceNumber: "asc",
+        };
+        break;
+      case "name-desc":
+        orderBy = {
+          invoiceNumber: "desc",
+        };
+        break;
+      case "newest":
+        orderBy = {
+          createdAt: "desc",
+        };
+        break;
+      default:
+        orderBy = {
+          createdAt: "asc",
+        };
+        break;
+    }
+
+    const invoices = await prisma.invoice.findMany({
+      select,
+      where,
+      orderBy,
+    });
+
+    return { success: true, invoices };
+  } catch (error) {
+    console.error("Read invoices select error:", error);
+    return {
+      success: false,
+      error: logs.error.read.invoices,
+    };
+  }
+}
+
 export {
   createInvoice,
   deleteInvoice,
@@ -545,4 +612,5 @@ export {
   readInvoicesUser,
   readInvoiceUser,
   updateInvoice,
+  readInvoicesSelect,
 };

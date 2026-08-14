@@ -3,13 +3,13 @@
 import AdminSearch from "@/components/admin/admin-search";
 import AdminTransactionFilters from "@/components/admin/transaction/transaction-filters";
 import AdminTransactionHeader from "@/components/admin/transaction/transaction-header";
-import AdminTransactionSummary from "@/components/admin/transaction/transaction-sammary";
+import AdminTransactionSummary from "@/components/admin/transaction/transaction-summary";
 import AdminTransactionTable from "@/components/admin/transaction/transaction-table";
 import Pagination from "@/components/pagination";
 import { useTheme } from "@/hooks/use-theme";
 import { Transaction } from "@/lib/@types/types";
 import { StatusTransaction, TransactionType } from "@/lib/generated/prisma/enums";
-import { handleReadTransactions } from "@/lib/handlers/events-handlers/transaction-events";
+import { handleReadTransactions, handleUpdateTransaction } from "@/lib/handlers/events-handlers/transaction-events";
 import { useEffect, useState } from "react";
 
 export default function AdminTransactionsPage() {
@@ -21,6 +21,7 @@ export default function AdminTransactionsPage() {
   const [totalPages, setTotalPages] = useState(1);
   const [success, setSuccess] = useState("");
   const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [transactionStatus, setTransactionStatus] = useState<StatusTransaction>();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedType, setSelectedType] = useState<TransactionType | "ALL">(
     "ALL",
@@ -35,6 +36,28 @@ export default function AdminTransactionsPage() {
   const onPageChange = (page: number) => {
     setCurrentPage(page);
   };
+
+  const handleUpdateTxn = async (id: number) => {
+    setLoading(true)
+    if (!transactionStatus) {
+      setError("Veuiller selecctionner un status")
+      setTransactionStatus(undefined)
+      return
+    }
+    const res = await handleUpdateTransaction(id, { status: transactionStatus })
+
+    if (res.error) {
+      setError(res.error);
+      setLoading(false);
+      setTransactionStatus(undefined)
+      return;
+    }
+
+    setSuccess("Transaction modifier !");
+    setLoading(false);
+    setTransactionStatus(undefined)
+
+  }
 
   useEffect(() => {
     setLoading(true);
@@ -71,6 +94,7 @@ export default function AdminTransactionsPage() {
     selectedStatus,
     sortBy,
     success,
+    transactionStatus
   ]);
 
 
@@ -81,7 +105,7 @@ export default function AdminTransactionsPage() {
         <AdminTransactionHeader emuted={isloading} />
 
         {/* Summary */}
-        <AdminTransactionSummary transactions={transactions} emuted={isloading} loading={loading} />
+        <AdminTransactionSummary transactionStatus={transactionStatus} emuted={isloading} loading={loading} />
 
         {/* Filters and Search */}
         <div className="bg-background border border-border rounded-lg p-4 space-y-4">
@@ -102,9 +126,15 @@ export default function AdminTransactionsPage() {
 
         {/* Transactions Table */}
         <div className="border border-border rounded-lg overflow-hidden">
-          <AdminTransactionTable transactions={transactions} emuted={isloading} loading={loading} />
+          <AdminTransactionTable
+            transactions={transactions}
+            handleUpdate={handleUpdateTxn}
+            emuted={isloading} loading={loading}
+            transactionStatus={transactionStatus}
+            setTransactionStatus={setTransactionStatus}
+          />
 
-          {loading ? (
+          {loading && transactions.length == 0 ? (
             <div className="text-center py-12">
               <p className="text-gray-500">Chargement des transactions....</p>
             </div>

@@ -25,22 +25,26 @@ export default function OrderShipping({
 
   return (
     <div className="space-y-3">
-      <div className="grid grid-cols-1 md:grid-cols-2 space-y-3">
+      <div className="grid grid-cols-1 md:grid-cols-2 space-y-3 gap-2">
         <div>
           <Skeleton emuted={emuted}>
             <p className={cn("text-sm ", !emuted && "text-gray-500")}>
               Adresse
             </p>
           </Skeleton>
-          <Skeleton emuted={emuted || loading}>
-            <p className="font-semibold">{shippingAddress.address || ""}</p>
-          </Skeleton>
 
           <Skeleton emuted={emuted || loading}>
-            <p className="font-semibold">{shippingAddress.city}</p>
+            <p className={cn(!emuted && !loading && "text-gray-500")}>
+              {shippingAddress.city}
+            </p>
           </Skeleton>
           <Skeleton emuted={emuted || loading}>
-            <p className="font-semibold">{shippingAddress.country}</p>
+            <p className={cn(!emuted && !loading && "text-gray-500")}>
+              {shippingAddress.country}
+            </p>
+          </Skeleton>
+          <Skeleton emuted={emuted || loading}>
+            <p className="font-semibold">{shippingAddress.address || ""}</p>
           </Skeleton>
         </div>
 
